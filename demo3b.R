@@ -1,142 +1,258 @@
-# Instalar una sola vez si hace falta:
-# install.packages(c("rvest", "httr2", "xml2", "stringr", "purrr"))
-
 library(rvest)
 library(httr2)
 library(xml2)
 library(stringr)
 library(purrr)
+library(dplyr)
+library(tibble)
 
 base_url <- "https://cifras.conicet.gov.ar"
-inicio   <- paste0(base_url, "/publica/")
 
-dir.create("conicet_xlsx", showWarnings = FALSE)
-
-# ------------------------------------------------------------
-# 1. Función para obtener enlaces de una página
-# ------------------------------------------------------------
-
-obtener_links <- function(url) {
-  
-  message("Leyendo: ", url)
-  
-  html <- read_html(url)
-  
-  hrefs <- html |>
-    html_elements("a") |>
-    html_attr("href") |>
-    na.omit() |>
-    unique()
-  
-  # Convertir enlaces relativos a absolutos
-  xml2::url_absolute(hrefs, url)
-}
+dir.create("conicet_xlsx_03", showWarnings = FALSE)
 
 
-# ------------------------------------------------------------
-# 2. Recorrer las páginas internas de /publica/
-# ------------------------------------------------------------
+# ============================================================
+# 1. Explorar sistemáticamente todos los IDs de gráficos
+# ============================================================
 
-visitadas <- character()
-pendientes <- inicio
-links_descarga <- character()
-
-while (length(pendientes) > 0) {
+buscar_dataset <- function(id) {
   
-  url <- pendientes[1]
-  pendientes <- pendientes[-1]
+  url_grafico <- sprintf(
+    "%s/publica/grafico/show-publico/%d",
+    base_url,
+    id
+  )
   
-  if (url %in% visitadas)
-    next
+  message("Probando gráfico ", id)
   
-  visitadas <- c(visitadas, url)
-  
-  links <- tryCatch(
-    obtener_links(url),
-    error = function(e) {
-      message("Error leyendo ", url, ": ", conditionMessage(e))
-      character()
+  resultado <- tryCatch({
+    
+    resp <- request(url_grafico) |>
+      req_user_agent(
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+      ) |>
+      req_timeout(15) |>
+      req_perform()
+    
+    # Si no existe
+    if (resp_status(resp) != 200) {
+      return(NULL)
     }
-  )
-  
-  if (length(links) == 0)
-    next
-  
-  # Enlaces de datasets
-  datasets <- links[
-    str_detect(
-      links,
-      "/publica/grafico/downloadDataset/"
+    
+    html <- resp_body_html(resp)
+    
+    # --------------------------------------------------------
+    # título del gráfico
+    # --------------------------------------------------------
+    
+    titulo <- html |>
+      html_elements("h1, h2, h3, h4") |>
+      html_text2()
+    
+    titulo <- titulo[nzchar(titulo)]
+    
+    if (length(titulo) > 0) {
+      titulo <- titulo[length(titulo)]
+    } else {
+      titulo <- NA_character_
+    }
+    
+    
+    # --------------------------------------------------------
+    # años disponibles en la página
+    # --------------------------------------------------------
+    
+    texto <- html |>
+      html_text2()
+    
+    anios <- str_extract_all(
+      texto,
+      "\\b(19|20)\\d{2}\\b"
+    )[[1]] |>
+      unique()
+    
+    anios <- paste(anios, collapse = ", ")
+    
+    
+    # --------------------------------------------------------
+    # enlaces downloadDataset
+    # --------------------------------------------------------
+    
+    links <- html |>
+      html_elements("a") |>
+      html_attr("href") |>
+      na.omit()
+    
+    datasets <- links[
+      str_detect(
+        links,
+        "/publica/grafico/downloadDataset/"
+      )
+    ]
+    
+    if (length(datasets) == 0) {
+      return(NULL)
+    }
+    
+    datasets <- url_absolute(
+      datasets,
+      url_grafico
+    ) |>
+      unique()
+    
+    
+    tibble(
+      grafico_id = id,
+      titulo = titulo,
+      anios = anios,
+      pagina = url_grafico,
+      dataset = datasets
     )
-  ]
-  
-  links_descarga <- unique(c(links_descarga, datasets))
-  
-  # Enlaces internos que permanecen dentro de /publica/
-  nuevos <- links[
-    str_starts(links, paste0(base_url, "/publica/"))
-  ]
-  
-  # No volver a visitar datasets ni recursos estáticos
-  nuevos <- nuevos[
-    !str_detect(
-      nuevos,
-      "downloadDataset|\\.(css|js|png|jpg|jpeg|gif|svg|ico|pdf|xlsx?|zip)(\\?|$)"
+    
+  }, error = function(e) {
+    
+    message(
+      "  Error en ID ", id,
+      ": ", conditionMessage(e)
     )
-  ]
+    
+    NULL
+  })
   
-  nuevos <- setdiff(nuevos, visitadas)
-  
-  pendientes <- unique(c(pendientes, nuevos))
-  
-  message(
-    "Páginas visitadas: ", length(visitadas),
-    " | datasets encontrados: ", length(links_descarga)
-  )
-  
-  Sys.sleep(0.2)
+  resultado
 }
 
 
-# ------------------------------------------------------------
-# 3. Descargar todos los datasets
-# ------------------------------------------------------------
+# ============================================================
+# 2. Recorrer IDs
+# ============================================================
 
-message("\nTotal de datasets encontrados: ", length(links_descarga))
+# El sitio actualmente supera ID 1100.
+# Uso 1500 para dejar margen.
 
-for (i in seq_along(links_descarga)) {
+ids <- 1:1500
+
+resultados <- vector(
+  "list",
+  length(ids)
+)
+
+for (i in seq_along(ids)) {
   
-  url <- links_descarga[i]
+  resultados[[i]] <- buscar_dataset(ids[i])
   
-  # IDs del enlace, por ejemplo:
-  # /downloadDataset/1063/86e68f4d467d3ae1e636e320c17ea09a
+  if (i %% 50 == 0) {
+    
+    encontrados <- sum(
+      !vapply(
+        resultados[seq_len(i)],
+        is.null,
+        logical(1)
+      )
+    )
+    
+    message(
+      "\n------------------------------",
+      "\nIDs revisados: ", i,
+      "\nGráficos con dataset: ", encontrados,
+      "\n------------------------------\n"
+    )
+  }
   
-  partes <- str_match(
-    url,
-    "downloadDataset/([^/]+)/([^/?]+)"
+  # pequeña pausa para no golpear innecesariamente el servidor
+  Sys.sleep(0.15)
+}
+
+
+# ============================================================
+# 3. Crear inventario
+# ============================================================
+
+inventario <- bind_rows(resultados) |>
+  distinct(dataset, .keep_all = TRUE)
+
+cat(
+  "\nDatasets encontrados:",
+  nrow(inventario),
+  "\n"
+)
+
+print(inventario)
+
+
+# guardar inventario
+
+write.csv(
+  inventario,
+  "conicet_xlsx_03/inventario_datasets.csv",
+  row.names = FALSE,
+  fileEncoding = "UTF-8"
+)
+
+# ============================================================
+# 4. Descargar datasets
+# ============================================================
+
+limpiar_nombre <- function(x) {
+  
+  x |>
+    str_replace_all("[^[:alnum:]áéíóúÁÉÍÓÚñÑ_-]+", "_") |>
+    str_replace_all("_+", "_") |>
+    str_remove_all("^_|_$") |>
+    str_sub(1, 120)
+}
+
+
+for (i in seq_len(nrow(inventario))) {
+  
+  fila <- inventario[i, ]
+  
+  titulo_limpio <- limpiar_nombre(fila$titulo)
+  
+  if (
+    is.na(titulo_limpio) ||
+    titulo_limpio == ""
+  ) {
+    
+    titulo_limpio <- paste0(
+      "grafico_",
+      fila$grafico_id
+    )
+  }
+  
+  archivo <- sprintf(
+    "%04d_ID-%s_%s.xlsx",
+    i,
+    fila$grafico_id,
+    titulo_limpio
   )
   
-  id   <- partes[, 2]
-  hash <- partes[, 3]
-  
-  archivo <- file.path(
-    "conicet_xlsx",
-    sprintf("%04d_dataset_%s.xlsx", i, id)
+  destino <- file.path(
+    "conicet_xlsx_03",
+    archivo
   )
   
   message(
-    "[", i, "/", length(links_descarga), "] ",
-    basename(archivo)
+    "\n[",
+    i,
+    "/",
+    nrow(inventario),
+    "] ",
+    archivo
   )
+  
   
   tryCatch({
     
-    request(url) |>
+    request(fila$dataset) |>
       req_user_agent(
-        "Mozilla/5.0 R downloader"
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
       ) |>
       req_retry(max_tries = 3) |>
-      req_perform(path = archivo)
+      req_timeout(60) |>
+      req_perform(
+        path = destino
+      )
     
   }, error = function(e) {
     
@@ -147,53 +263,5 @@ for (i in seq_along(links_descarga)) {
     
   })
   
-  Sys.sleep(0.3)
-}
-
-
-# ------------------------------------------------------------
-# 4. Guardar inventario de URLs
-# ------------------------------------------------------------
-
-writeLines(
-  links_descarga,
-  "conicet_xlsx/urls_descarga.txt"
-)
-
-cat(
-  "\nFinalizado.\n",
-  "Datasets encontrados:", length(links_descarga), "\n",
-  "Directorio: conicet_xlsx\n"
-)
-
-##################################################
-
-library(rvest)
-library(xml2)
-library(stringr)
-library(httr2)
-
-url <- "https://cifras.conicet.gov.ar/publica/"
-
-html <- read_html(url)
-
-links <- html |>
-  html_elements("a.dataset-download") |>
-  html_attr("href") |>
-  url_absolute(url) |>
-  unique()
-
-dir.create("conicet_xlsx2", showWarnings = FALSE)
-
-for (i in seq_along(links)) {
-  
-  destino <- file.path(
-    "conicet_xlsx2",
-    sprintf("dataset_%04d.xlsx", i)
-  )
-  
-  request(links[i]) |>
-    req_perform(path = destino)
-  
-  message(i, "/", length(links))
+  Sys.sleep(0.25)
 }
