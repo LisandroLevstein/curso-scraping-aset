@@ -1,0 +1,3196 @@
+
+<script type="text/javascript" src="../scripts/abm.js"></script>
+
+<script language=javascript>
+<!--
+function comboDocumentoAbmOpen( comboControl, abmUrl,
+	comboField, comboCharField, comboNumericField, comboUpdateControls, onChangeFunction ) {
+
+var FiltrarPorSindicatosCombo;
+var FiltrarPorSindicatos;
+var SindicatosIdText;
+var SindicatosId;
+
+	FiltrarPorSindicatosCombo = document.getElementById('FiltrarPorSindicatosCombo');
+	FiltrarPorSindicatos = (FiltrarPorSindicatosCombo == null) ? '0' : FiltrarPorSindicatosCombo.value;
+
+	SindicatosIdText = document.getElementById('SindicatosIdText');
+	SindicatosId = (SindicatosIdText == null) ? '' : SindicatosIdText.value;
+
+	if (FiltrarPorSindicatos == '1' && SindicatosId != '') {
+		if ( abmUrl.indexOf('?')==-1 ) abmUrl += '?'; else abmUrl += '&';
+		abmUrl += 'comboSindicatosId=' + SindicatosId;
+	}
+	
+	comboAbmOpen( comboControl, abmUrl,
+		comboField, comboCharField, comboNumericField, comboUpdateControls, onChangeFunction );
+	
+}
+//-->
+</script>
+
+<script language=javascript>
+<!--
+function agregarDocumento() {
+var win;
+var abmUrl;
+var abmUpdateControls;
+var abmSindicatosId;
+var abmEmpleadoresId;
+var abmTramiteTipoId;
+
+	abmUrl = '../convenios/AltaConvenios.asp';
+
+	abmUpdateControls = 'DocumentoId=DocumentoId,DocumentoCodigo=Codigo';
+	
+	abmSindicatosId = ( $('SindicatosId') != null ? $('SindicatosId').value : '' );
+	abmEmpleadoresId = ( $('EmpleadoresId') != null ? $('EmpleadoresId').value : '' );
+	abmTramiteTipoId = ( $('TramiteTipoId') != null ? $('TramiteTipoId').value : '' );
+
+	if ( abmUrl.indexOf('?')==-1 ) abmUrl += '?'; else abmUrl += '&';
+
+	abmUrl += 
+		'AbmUpdateControls=' + abmUpdateControls + '&' +
+		'AbmSindicatosId=' + abmSindicatosId + '&' +
+		'AbmEmpleadoresId=' + abmEmpleadoresId + '&' +
+		'AbmTramiteTipoId=' + abmTramiteTipoId
+
+	win = window.open( abmUrl, 'altaDocumentoWindow', 'location=0,status=1,scrollbars=1,resizable=1,width=800,height=510' );	
+}
+
+function modificarDocumento() {
+var win;
+var abmUrl;
+var documentoId;
+
+	if ( $('DocumentoId') == null ) return;
+	documentoId = $('DocumentoId').value;
+	if ( documentoId == '' ) return;
+
+	abmUrl = '../convenios/AbmConvenios.asp';
+
+	if ( abmUrl.indexOf('?')==-1 ) abmUrl += '?'; else abmUrl += '&';
+
+	abmUrl += 
+		'queryModo=Modificacion&' +
+		'queryDocumentoId=' + documentoId;
+
+	win = windowOpen( abmUrl, 'modificacionDocumentoWindow', 'location=0,status=1,scrollbars=1,resizable=1,width=800,height=510,center=1' );	
+}
+
+//-->
+</script>
+
+
+
+<!-- Header.asp -->
+<html>
+<head>
+<title>Buscador de Convenios colectivos de trabajo del Ministerio de Trabajo de la República Argentina</title>
+	<meta http-equiv="Content-Type" content="text/html">
+	<meta content="Buscador de convenios colectivos de trabajo del Ministerio de trabajo, empleo y seguridad social de la República Argentina" name="description">
+	<meta content="convenios colectivos de trabajo, buscador, Ministerio de trabajo empleo y seguridad social, argentina" name="keywords">
+	<meta content="index,follow" name="robots">
+	<meta name="verify-v1" content="W3zGlBBua3VtQXCS9P0iWsYd5Jc/VXZPzoqh/R6f4kY=" />
+
+	<link href="../Style/style.css" type="text/css" rel="stylesheet">
+	<link href="../Style/style_banner.css" type="text/css" rel="stylesheet">
+	
+
+</head>
+<body bgColor="white">
+
+<!-- Banner del MTSS -->
+<a name="arriba"></a>
+
+<table style="background-image: url(&quot;../banner_mtss/images/top/repeBig.gif&quot;);" border="0" height="73" cellspacing="0">
+	<tbody>
+		<tr>
+			<td align="left" width="10%" style="padding-left: 20px; padding-right: 20px;">
+				<a href="http://www.trabajo.gob.ar/">
+					<!--img src="../Banner_MTSS/images/top/logo.gif" alt="Volver a la Página de Inicio" border="0"-->
+					<img src="../Banner_MTSS/images/top/LogoMinCapitalHumanoBn.png" alt="Volver a la Página de Inicio" border="0" style="width:73px;height:73px;">
+				</a>
+			</td>
+			<td align="left" width="30%">
+				<a>
+					<img src="../Banner_MTSS/images/top/SGS_ISO 9001_TPL.png" height="73" border="0">
+				</a>
+			</td>
+			<td align="right" width="60%">
+				<a href="http://www.trabajo.gob.ar/">
+					<img src="../Banner_MTSS/images/top/headerBg.gif" alt="Volver a la Página de Inicio" border="0">
+				</a>
+				<div class="icoHeader" >
+					<a href="http://trabajo.gov.ar/index.asp"><img border="0" align="left" title="Volver a la página de inicio" alt="Volver a la página de inicio" style="margin-right: 5px;" src="../Banner_MTSS/images/top/icoHome.png"></a>
+					<a href="http://trabajo.gov.ar/arbol/"><img border="0" align="left" title="Arbol del Sitio" alt="Arbol del Sitio" style="margin-right: 5px;" src="../Banner_MTSS/images/top/icoArbol.png"></a>
+					<a href="http://trabajo.gov.ar/contactos/"><img border="0" align="left" title="Contactos" alt="Contactos" style="margin-right: 5px;" src="../Banner_MTSS/images/top/icoContacto.png"></a>
+					<a href="http://trabajo.gov.ar/links/"><img border="0" align="left" title="Enlaces de Interés" alt="Enlaces de Interés" style="margin-right: 5px;" src="../Banner_MTSS/images/top/icoLinks.png"></a>
+					<a href="http://trabajo.gov.ar/left/estadisticas/glosario/index.asp"><img border="0" align="left" title="Glosario" alt="Glosario" style="margin-right: 5px;" src="../Banner_MTSS/images/top/icoGlosario.png"></a>
+				</div>
+			</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td height="26" colspan="4" align="right" valign="middle" class="banner_titulo">Convenios colectivos de trabajo</td>
+        </tr>
+	</tbody>
+</table><!-- Menu -->
+<br>
+<!-- Fin - Banner del MTSS -->
+<!-- Fin OpenLayout.asp -->
+<script type="text/javascript">
+
+var HelpWindow = null
+
+function HideHelpWindow() {
+	if (HelpWindow == null) {	return; 
+	} else {
+		HelpWindow.close();
+		HelpWindow = null;
+	}
+}
+
+function ShowHelpWindow(Titulo, Mensaje) {
+var Pagina
+var Options
+
+	if (Titulo == null) {Titulo='Ayuda';}
+	if (Mensaje == null) {return;}
+	if (Mensaje == '') {return;}
+	
+	Pagina = "../Ayuda/QuickHelp.asp?" + 
+		"Titulo=" + Titulo + "&" +
+		"Mensaje=" + Mensaje
+
+	Options = "toolbar=no,location=no,directories=no,status=no," +
+	"scrollbars=no,resizable=no,titlebar=no," + 
+	"height=320,width=350,top=100,left=10";
+		
+	HelpWindow = window.open(Pagina, 'Ayuda', Options);
+}
+
+function ShowHelpWindowScroll(Titulo, Mensaje) {
+var Pagina
+var Options
+
+	if (Titulo == null) {Titulo='Ayuda';}
+	if (Mensaje == null) {return;}
+	if (Mensaje == '') {return;}
+	
+	Pagina = "../Ayuda/QuickHelp.asp?" + 
+		"Titulo=" + Titulo + "&" +
+		"Mensaje=" + Mensaje
+	
+	Options = "toolbar=no,location=no,directories=no,status=no," +
+	"scrollbars=1,resizable=no,titlebar=no," + 
+	"height=415,width=380,top=10,left=10";
+		
+	HelpWindow = window.open(Pagina, 'Ayuda', Options);
+}
+
+</script>
+
+</head>
+<body onfocus="javascript:HideHelpWindow()">
+
+<form id="Formulario" name="Formulario" action=""  method="post" >
+
+	<!-- TABLA GENERAL -->
+	<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
+		<tr>
+			<td width="1%">	</td>
+			<td width="98%">
+				<!-- PANEL GENERAL -->
+				<div id="AbmData" name="AbmData" style="display:none">
+<table class="campos" border=0 width="100%">
+<tr>
+<td width="33%">
+	<P>
+  <table class="campos" border=1>
+	   <tr>
+	     <td colspan=2><B>Request.Form</B></td>
+	   </tr>
+	   <tr>
+	     <td><B>Indice</B></td><td><B>Valor</B></td>
+	   </tr>
+	   <tr>
+	     <td>Anio</td><td>2024</td>
+	   </tr>
+	   <tr>
+	     <td>SubNivelId</td><td></td>
+	   </tr>
+	   <tr>
+	     <td>Tabla</td><td>DocumentoWeb</td>
+	   </tr>
+	   <tr>
+	     <td>IsPostBack</td><td>1</td>
+	   </tr>
+	   <tr>
+	     <td>Numero</td><td></td>
+	   </tr>
+	   <tr>
+	     <td>TipoDocumentoId</td><td></td>
+	   </tr>
+	   <tr>
+	     <td>Id</td><td>0</td>
+	   </tr>
+	   <tr>
+	     <td>NivelId</td><td></td>
+	   </tr>
+	   <tr>
+	     <td>Accion</td><td>Buscar</td>
+	   </tr>
+	   <tr>
+	     <td>AntModo</td><td>Consulta</td>
+	   </tr>
+	   <tr>
+	     <td>AtEof</td><td>0</td>
+	   </tr>
+	   <tr>
+	     <td>Pagina</td><td>1</td>
+	   </tr>
+	   <tr>
+	     <td>CambiosPendientes</td><td>False</td>
+	   </tr>
+	   <tr>
+	     <td>CantFilas</td><td>50</td>
+	   </tr>
+	   <tr>
+	     <td>Modo</td><td>Consulta</td>
+	   </tr>
+	   <tr>
+	     <td>AntAccion</td><td>Consultar</td>
+	   </tr>
+  </table>
+
+</P>
+</td>
+
+	<td width="33%">Variables Asp<BR>
+		<table class="campos" border="1">
+			<tbody>
+				<tr>
+					<td><B>Variable</B></td>
+					<td><B>Valor</B></td>
+				</tr>
+<tr>
+	<td>Tabla</td>
+	<td><input class="formobj" id="Tabla" name="Tabla" value="DocumentoWeb"></td>
+</tr>
+<tr>
+	<td>Orden</td>
+	<td><input class="formobj" id="Orden" name="Orden" value=""></td>
+</tr>
+<tr>
+	<td>Modo</td>
+	<td><input class="formobj" id="Modo" name="Modo" value="Browse"></td>
+</tr>
+<tr>
+	<td>Id</td>
+	<td><input class="formobj" id="Id" name="Id" value="73476"></td>
+</tr>
+<tr>
+	<td>AntModo</td>
+	<td><input class="formobj" id="AntModo" name="AntModo" value="Consulta"></td>
+</tr>
+<tr>
+	<td>Accion</td>
+	<td><input class="formobj" id="Accion" name="Accion" value="Buscar"></td>
+</tr>
+<tr>
+	<td>AntAccion</td>
+	<td><input class="formobj" id="AntAccion" name="AntAccion" value="Buscar"></td>
+</tr>
+<tr>
+	<td>AtEof</td>
+	<td><input class="formobj" id="AtEof" name="AtEof" value="0"></td>
+</tr>
+<tr>
+	<td>Pagina</td>
+	<td><input class="formobj" id="Pagina" name="Pagina" value="1"></td>
+</tr>
+<tr>
+	<td>CantFilas</td>
+	<td><input class="formobj" id="CantFilas" name="CantFilas" value="50"></td>
+</tr>
+<tr>
+	<td>CambiosPendientes</td>
+	<td><input class="formobj" id="CambiosPendientes" name="CambiosPendientes" value="False"></td>
+</tr>
+<tr>
+	<td>EsAbmCombo</td>
+	<td><input class="formobj" id="EsAbmCombo" name="EsAbmCombo" value="0"></td>
+</tr>
+<tr>
+	<td>ComboUpdateControls</td>
+	<td><input class="formobj" id="ComboUpdateControls" name="ComboUpdateControls" value=""></td>
+</tr>
+			</tbody>
+		</table>
+	</td>
+	<td width="33%">Variables Adicionales<BR>
+		<table class="campos" border="1">
+			<tbody>
+				<tr>
+					<td><B>Variable</B></td>
+					<td><B>Valor</B></td>
+				</tr>
+<tr>
+	<td>ArchivoId</td>
+	<td><input class="formobj" id="ArchivoId" name="ArchivoId" value=""></td>
+</tr>
+<tr>
+	<td>IsPostBack</td>
+	<td><input class="formobj" id="IsPostBack" name="IsPostBack" value="1"></td>
+</tr>
+			</tbody>
+		</table>
+	</td>
+	</tr>
+</table>
+<table class="campos" border="1">
+  <tr>
+    <td><B>Variable</B></td>
+    <td><B>Valor</B></td>
+  </tr>
+<tr>
+	<td>restoreControlFocus</td>
+	<td><input class="formobj" id="restoreControlFocus" name="restoreControlFocus" value=""></td>
+</tr>
+<tr>
+	<td>restoreScrollTop</td>
+	<td><input class="formobj" id="restoreScrollTop" name="restoreScrollTop" value=""></td>
+</tr>
+<tr>
+	<td>restoreTabFocus</td>
+	<td><input class="formobj" id="restoreTabFocus" name="restoreTabFocus" value=""></td>
+</tr>
+
+		</table>
+
+</div>
+
+
+
+
+	<!-- Titulo - Búsqueda realizada -->
+	<table class="Campos" cellSpacing="0" cellPadding="0" align="center" width="98%" border="0" ID="Table19">
+		<tr>
+			<td width="50%" height="20" class="titulobusqueda"><b>B&#250;squeda de documentos</b></td>		
+			<td width="50%" align="right" valign="bottom"><font size="2"><b>Resultado de la b&#250;squeda</b></font></td>
+		</tr>
+		<tr>
+			<td width="100%" colspan="2" align="right" valign="top">
+			
+				Se han encontrado <b>1843 registros</b> que coinciden con sus criterios de b&#250;squeda</td>
+						
+		</tr>
+		<tr>
+			<td width="100%" height="3" colspan="2"></td>
+		</tr>
+		<tr> <!-- Botones | Refinar busqueda | Nueva busqueda -->
+			<td width="55%" align="right"><div id="labelShowdivAbmForm"  class="camposDestacados"  
+onmouseover="this.style.cursor='pointer';imglabelShowdivAbmForm.src='../images/navegacion/expandirOn.gif';window.status='Refinar búsqueda';return true;" 
+onmouseout="this.style.cursor='default';imglabelShowdivAbmForm.src='../images/navegacion/expandir.gif';window.status='';return true;" 
+onclick="javascript:HideControl('labelShowdivAbmForm');ShowControl('labelHidedivAbmForm');ShowControl('divAbmForm');"><b>Refinar búsqueda</b>&nbsp;<img alt="Refinar búsqueda"  src="../images/navegacion/expandir.gif" border="0" name="imglabelShowdivAbmForm" align="absmiddle">&nbsp;&nbsp;</div>
+
+
+<div id="labelHidedivAbmForm"  class="camposDestacados"  style="display:none" 
+onmouseover="this.style.cursor='pointer';imglabelHidedivAbmForm.src='../images/navegacion/contraerOn.gif';window.status='Ocultar búsqueda';return true;" 
+onmouseout="this.style.cursor='default';imglabelHidedivAbmForm.src='../images/navegacion/contraer.gif';window.status='';return true;" 
+onclick="javascript:ShowControl('labelShowdivAbmForm');HideControl('labelHidedivAbmForm');HideControl('divAbmForm');"><b>Ocultar búsqueda</b>&nbsp;<img alt="Ocultar búsqueda"  src="../images/navegacion/contraer.gif" border="0" name="imglabelHidedivAbmForm" align="absmiddle">&nbsp;&nbsp;</div>
+
+
+</td>
+			<td width="44%" align="right">
+	<a tabindex="-1" href="consultaBasica.asp">
+	<img src="../images/menus/consulta.gif" border="0" align="absmiddle">
+	<b>Nueva b&#250;squeda</b></a>
+</td>
+		</tr>
+		<tr>
+			<td width="100%" height="10" colspan="2"></td>
+		</tr>
+	</table>
+<div id="divAbmForm" style="display:none"> <!--aca lo abre-->
+				
+				<!-- TABLA TITULO -->
+  <table cellSpacing="0" cellPadding="0" width="98%" border="0" align="center">
+  <tbody>
+    <tr>
+      <td class="TablaEncabezadoTitulos" width="30%" height="22" align="center">&nbsp;&nbsp;CONSULTA DE CONVENIOS</td>
+      <td width="20%">&nbsp;&nbsp;<a class="camposDestacados" href="consultaAvanzada.asp">consulta avanzada&nbsp;&nbsp;<img src="../images/otros/lupaAbmCombo.gif" border="0" align="absmiddle"></a></td>
+      <td width="50%" align="right"></td>
+		</tr>
+	</tbody>
+	</table>
+<!-- FIN TABLA TITULO -->
+<table class="TablaEncabezado" cellSpacing="0" cellPadding="0" width="98%" border="0" align="center">
+<tbody>
+<tr>
+
+  <td vAlign=top>
+
+				
+				
+				<!-- Comienzo Formulario -->
+				
+				<!-- Tipo Documento | Nro | Año | Tipo Convenio -->
+				<table class="tablaAbmPar" border="0" cellSpacing="0" cellPadding="0" width="100%" ID="TDatos1">
+					<tr class="campos">
+						<td width="1%" height="30"></td>
+						<td width="10%" align="right"><b>Tipo Doc.</b></td>
+						<td width="1%"></td>
+						<td width="14%"><select style="behavior:url('../include/Select.htc')" id="TipoDocumentoId" name="TipoDocumentoId" class="formobjConsulta"  >
+<option value="" selected> --Seleccione--</option>
+<option value="2">ACUERDO</option>
+<option value="9">Adhesiones a Acuerdo Marco</option>
+<option value="1">CONVENIO COLECTIVO DE TRABAJO</option>
+<option value="3">LAUDO</option>
+</select>
+
+</td>
+						<td width="1%"></td>
+						<td width="4%" align="right"><b>N°</b></td>
+						<td width="1%"></td>
+						<td width="8%"><input class="formobjConsulta" Id="Numero" Name="Numero" Value="" onkeypress="javascript:validKey('Numero', 'TEXTUPPER')" 
+ maxlength="12">
+</td>
+						<td width="1%">
+						<!-- NumeroAyuda - Haga click aquí para ver la ayuda de este campo --><a tabindex="-1" 
+  onmouseover="this.style.cursor='pointer';NumeroAyuda.src='../Images/Navegacion/AyudaOn.gif';window.status='Haga click aquí para ver la ayuda de este campo';return true" 
+  onmouseout ="this.style.cursor='default';NumeroAyuda.src='../Images/Navegacion/Ayuda.gif';window.status='';return true" 
+  href="javascript:ShowHelpWindow('B&#250;squeda | N&#250;mero','Especifique aqu&amp;#237; el n&amp;#250;mero de acuerdo o convenio por el que desea realizar la b&amp;#250;squeda.&lt;/br&gt;Si conoce el n&amp;#250;mero exacto ingr&amp;#233;selo.&lt;/br&gt;&lt;/br&gt;Tambi&amp;#233;n puede utilizar los operadores &lt;/br&gt;mayor &lt;b&gt;(&gt;)&lt;/b&gt;, menor &lt;b&gt;(&lt;)&lt;/b&gt; o entre &lt;b&gt;(..)&lt;/b&gt; para consultar documentos cuyos n&amp;#250;meros se encuentren en un rango determinado.&lt;/br&gt;&lt;/br&gt;&lt;b&gt;Ejemplo 1:&lt;/b&gt; &lt;i&gt;&lt; 260&lt;/i&gt;&lt;/br&gt;Para consultar todos los documentos cuyos n&amp;#250;meros sean menores a 260.&lt;/br&gt;&lt;/br&gt;&lt;b&gt;Ejemplo 2:&lt;/b&gt; &lt;i&gt;260..320&lt;/i&gt;&lt;/br&gt;Para consultar todos los documentos cuyos n&amp;#250;meros est&amp;#233;n entre 260 y 320 inclusive.')" 
+  onkeypress="if (event.keyCode==13) {ShowHelpWindow('B&#250;squeda | N&#250;mero','Especifique aqu&amp;#237; el n&amp;#250;mero de acuerdo o convenio por el que desea realizar la b&amp;#250;squeda.&lt;/br&gt;Si conoce el n&amp;#250;mero exacto ingr&amp;#233;selo.&lt;/br&gt;&lt;/br&gt;Tambi&amp;#233;n puede utilizar los operadores &lt;/br&gt;mayor &lt;b&gt;(&gt;)&lt;/b&gt;, menor &lt;b&gt;(&lt;)&lt;/b&gt; o entre &lt;b&gt;(..)&lt;/b&gt; para consultar documentos cuyos n&amp;#250;meros se encuentren en un rango determinado.&lt;/br&gt;&lt;/br&gt;&lt;b&gt;Ejemplo 1:&lt;/b&gt; &lt;i&gt;&lt; 260&lt;/i&gt;&lt;/br&gt;Para consultar todos los documentos cuyos n&amp;#250;meros sean menores a 260.&lt;/br&gt;&lt;/br&gt;&lt;b&gt;Ejemplo 2:&lt;/b&gt; &lt;i&gt;260..320&lt;/i&gt;&lt;/br&gt;Para consultar todos los documentos cuyos n&amp;#250;meros est&amp;#233;n entre 260 y 320 inclusive.');}" 
+  ><img alt="Haga click aquí para ver la ayuda de este campo" src="../Images/Navegacion/Ayuda.gif" border="0" name="NumeroAyuda"></a>
+						</td>
+						<td width="1%">
+						<td width="4%" align="right"><b>A&#241;o</b></td>
+						<td width="1%"></td>
+						<td width="6%"><input class="formobjConsulta" Id="Anio" Name="Anio" Value="2024" onkeypress="javascript:validKey('Anio', 'TEXTUPPER')" 
+ maxlength="10">
+</td>
+						<td width="3%">
+						<!-- AnioAyuda - Haga click aquí para ver la ayuda de este campo --><a tabindex="-1" 
+  onmouseover="this.style.cursor='pointer';AnioAyuda.src='../Images/Navegacion/AyudaOn.gif';window.status='Haga click aquí para ver la ayuda de este campo';return true" 
+  onmouseout ="this.style.cursor='default';AnioAyuda.src='../Images/Navegacion/Ayuda.gif';window.status='';return true" 
+  href="javascript:ShowHelpWindow('B&#250;squeda | A&#241;o','Especifique aqu&amp;#237; el a&amp;#241;o del convenio o acuerdo por el que desea realizar la b&amp;#250;squeda.&lt;/br&gt;Si conoce el a&amp;#241;o del documento ingr&amp;#233;selo.&lt;/br&gt;Tambi&amp;#233;n puede utilizar los operadores &lt;/br&gt;mayor &lt;b&gt;(&gt;)&lt;/b&gt;, menor &lt;b&gt;(&lt;)&lt;/b&gt; o entre &lt;b&gt;(..)&lt;/b&gt; para consultar documentos en un rango determinado de a&amp;#241;os.&lt;/br&gt;&lt;/br&gt;&lt;b&gt;Ejemplo 1:&lt;/b&gt; &lt;i&gt;&lt; 2003&lt;/i&gt;.&lt;/br&gt;Para consultar todos los documentos anteriores al a&amp;#241;o 2003.&lt;/br&gt;&lt;/br&gt;Tambi&amp;#233;n puede utilizar dos puntos &lt;b&gt;(..)&lt;/b&gt; para filtrar entre dos a&amp;#241;os determinados.&lt;/br&gt;&lt;/br&gt;&lt;b&gt;Ejemplo 2:&lt;/b&gt; &lt;i&gt;2000..2004&lt;/i&gt;&lt;/br&gt;Para consultar todos los documentos del a&amp;#241;o 2000 al 2004 inclusive.')" 
+  onkeypress="if (event.keyCode==13) {ShowHelpWindow('B&#250;squeda | A&#241;o','Especifique aqu&amp;#237; el a&amp;#241;o del convenio o acuerdo por el que desea realizar la b&amp;#250;squeda.&lt;/br&gt;Si conoce el a&amp;#241;o del documento ingr&amp;#233;selo.&lt;/br&gt;Tambi&amp;#233;n puede utilizar los operadores &lt;/br&gt;mayor &lt;b&gt;(&gt;)&lt;/b&gt;, menor &lt;b&gt;(&lt;)&lt;/b&gt; o entre &lt;b&gt;(..)&lt;/b&gt; para consultar documentos en un rango determinado de a&amp;#241;os.&lt;/br&gt;&lt;/br&gt;&lt;b&gt;Ejemplo 1:&lt;/b&gt; &lt;i&gt;&lt; 2003&lt;/i&gt;.&lt;/br&gt;Para consultar todos los documentos anteriores al a&amp;#241;o 2003.&lt;/br&gt;&lt;/br&gt;Tambi&amp;#233;n puede utilizar dos puntos &lt;b&gt;(..)&lt;/b&gt; para filtrar entre dos a&amp;#241;os determinados.&lt;/br&gt;&lt;/br&gt;&lt;b&gt;Ejemplo 2:&lt;/b&gt; &lt;i&gt;2000..2004&lt;/i&gt;&lt;/br&gt;Para consultar todos los documentos del a&amp;#241;o 2000 al 2004 inclusive.');}" 
+  ><img alt="Haga click aquí para ver la ayuda de este campo" src="../Images/Navegacion/Ayuda.gif" border="0" name="AnioAyuda"></a>
+						</td>
+						<td width="4%" align="right"><b>Nivel</b></td>
+						<td width="1%"></td>
+						<td width="14%"><select style="behavior:url('../include/Select.htc')" id="NivelId" name="NivelId" class="formobjConsulta"  onchange="javascript:savePageState(this,null);FireEvent('Refrescar')"  >
+<option value="" selected> --Seleccione--</option>
+<option value="2">ACTIVIDAD</option>
+<option value="3">EMPRESA</option>
+</select>
+
+</td>
+						<td width="1%"></td>						
+						<td width="8%" align="right"><b>SubNivel</b></td>
+						<td width="1%"></td>						
+						<td width="14%"><select style="behavior:url('../include/Select.htc')" id="SubNivelId" name="SubNivelId" class="formobjConsulta"  >
+<option value="" selected> --Seleccione--</option>
+<option value="3">Empresa &#250;nica</option>
+<option value="4">Grupo de empresas</option>
+<option value="2">Rama/Sector</option>
+<option value="1">Toda la actividad</option>
+</select>
+
+</td>
+						<td width="1%"></td>
+					</tr>
+				</table>
+				<!-- Actividad -->
+				<table class="tablaAbmImpar" border="0" cellSpacing="0" cellPadding="0" width="100%">
+					<tr class="campos">
+						<td width="1%" height="30"></td>		  
+						<td width="10%" align="right"><b>Actividad</b></td>
+						<td width="1%"></td>
+						<td width="50%">
+							<table cellSpacing="0" cellPadding="0" width="100%" border="0"><tr><td><input type="text" id="ActividadCodigo" name="ActividadCodigo" class="formobjConsulta"   onchange="javascript:comboAbmOpen( getTarget(event), '..\\Tabla\\AbmActividad.asp', 'Codigo', null, null, 'ActividadId=ActividadId,ActividadCodigo=Codigo', null);"  value="">
+</td><td width="1%">&nbsp;</td><td width="5%"><a href="javascript:comboAbmOpen( null, '..\\Tabla\\AbmActividad.asp', 'Codigo', null, null, 'ActividadId=ActividadId,ActividadCodigo=Codigo', null);"><img src="../images/otros/lupaAbmCombo.gif" border="0" align="absmiddle"></a></td><td width="0%"><input type="hidden" id="ActividadId" name="ActividadId" class="formobjConsulta"   style="text-align:Right"  onkeypress="javascript: return validKeyEvent(event, '', 'INTEGER')" value="">
+</td></tr></table>
+
+						</td>	
+						<td width="3%">
+							<!-- ActividadAyuda - Haga click aquí para ver la ayuda de este campo --><a tabindex="-1" 
+  onmouseover="this.style.cursor='pointer';ActividadAyuda.src='../Images/Navegacion/AyudaOn.gif';window.status='Haga click aquí para ver la ayuda de este campo';return true" 
+  onmouseout ="this.style.cursor='default';ActividadAyuda.src='../Images/Navegacion/Ayuda.gif';window.status='';return true" 
+  href="javascript:ShowHelpWindow('B&#250;squeda | Actividad','Actividad a la que se refiere la negociaci&amp;#243;n. Esta puede ser seleccionada de la siguiente manera:&lt;/br&gt;&lt;/br&gt;&lt;b&gt;1)&lt;/b&gt; Ingresando el &lt;i&gt;&lt;b&gt;nombre exacto&lt;/b&gt;&lt;/i&gt; de la actividad o sub-actividad con lo que se listan todos los documentos que se refieren a las mismas.&lt;/br&gt;&lt;/br&gt;&lt;b&gt;2)&lt;/b&gt; Ingresando una palabra o parte de la misma de una actividad y presionando en la &lt;b&gt;lupa&lt;/b&gt; obtendr&amp;#225; una lista de actividades que contengan dichos caracteres.&lt;/br&gt;&lt;b&gt;Ejemplo:&lt;/b&gt; Ingresando &lt;b&gt;ACE&lt;/b&gt; y presionando la &lt;b&gt;lupa&lt;/b&gt;, obtenemos las actividades &lt;b&gt;ACE&lt;/b&gt;ITEROS, FARM&lt;b&gt;ACE&lt;/b&gt;UTICOS, CAPAT&lt;b&gt;ACE&lt;/b&gt;S.&lt;/br&gt;&lt;/br&gt;&lt;b&gt;3)&lt;/b&gt;Presionando directamente en la &lt;b&gt;lupa&lt;/b&gt; se listar&amp;#225;n todas las actividades disponibles.')" 
+  onkeypress="if (event.keyCode==13) {ShowHelpWindow('B&#250;squeda | Actividad','Actividad a la que se refiere la negociaci&amp;#243;n. Esta puede ser seleccionada de la siguiente manera:&lt;/br&gt;&lt;/br&gt;&lt;b&gt;1)&lt;/b&gt; Ingresando el &lt;i&gt;&lt;b&gt;nombre exacto&lt;/b&gt;&lt;/i&gt; de la actividad o sub-actividad con lo que se listan todos los documentos que se refieren a las mismas.&lt;/br&gt;&lt;/br&gt;&lt;b&gt;2)&lt;/b&gt; Ingresando una palabra o parte de la misma de una actividad y presionando en la &lt;b&gt;lupa&lt;/b&gt; obtendr&amp;#225; una lista de actividades que contengan dichos caracteres.&lt;/br&gt;&lt;b&gt;Ejemplo:&lt;/b&gt; Ingresando &lt;b&gt;ACE&lt;/b&gt; y presionando la &lt;b&gt;lupa&lt;/b&gt;, obtenemos las actividades &lt;b&gt;ACE&lt;/b&gt;ITEROS, FARM&lt;b&gt;ACE&lt;/b&gt;UTICOS, CAPAT&lt;b&gt;ACE&lt;/b&gt;S.&lt;/br&gt;&lt;/br&gt;&lt;b&gt;3)&lt;/b&gt;Presionando directamente en la &lt;b&gt;lupa&lt;/b&gt; se listar&amp;#225;n todas las actividades disponibles.');}" 
+  ><img alt="Haga click aquí para ver la ayuda de este campo" src="../Images/Navegacion/Ayuda.gif" border="0" name="ActividadAyuda"></a>
+						</td>
+						<td width="1%"></td>
+						
+							<td width="3%" class="campos" align="left" >
+								<input type="checkbox" id="ActividadIdConHijos" name="ActividadIdConHijos" value="1">
+							</td>
+							<td width="20%" align="left"><b>y subactividades</b>&nbsp;</td>
+						
+						
+						<td width="10%"></td>
+
+						<td width="1%"></td>
+					</tr>
+				</table>
+
+			<!-- Fecha celebración | Fecha de homologación -->
+				<table class="tablaAbmPar" border="0" cellSpacing="0" cellPadding="0" width="100%" ID="Table2">
+					<tr class="campos">
+						<td width="1%" height="30"></td>		  
+
+						<td align="right" width="20%"><b> Fecha de celebraci&#243;n</b></td>
+						<td width="1%"></td>
+						<td width="15%"><input type="text" id="FechaCelebracion" name="FechaCelebracion" class="formobjConsulta" maxlength="102"   onkeypress="javascript: return validKeyEvent(event, 'FechaCelebracion', 'DATETIME')"  value="">
+</td>
+						<td width="3%">
+							<!-- FechaCelebracionAyuda - Haga click aquí para ver la ayuda de este campo --><a tabindex="-1" 
+  onmouseover="this.style.cursor='pointer';FechaCelebracionAyuda.src='../Images/Navegacion/AyudaOn.gif';window.status='Haga click aquí para ver la ayuda de este campo';return true" 
+  onmouseout ="this.style.cursor='default';FechaCelebracionAyuda.src='../Images/Navegacion/Ayuda.gif';window.status='';return true" 
+  href="javascript:ShowHelpWindow('B&#250;squeda | Fecha de celebraci&#243;n','Especifique aqu&amp;#237; la fecha de celebraci&amp;#243;n del convenio o acuerdo.&lt;/br&gt;Si conoce la fecha exacta ingr&amp;#233;sela.&lt;/br&gt;Tambi&amp;#233;n puede utilizar los operadores&lt;/br&gt;mayor &lt;b&gt;(&gt;)&lt;/b&gt;, menor &lt;b&gt;(&lt;)&lt;/b&gt; o entre &lt;b&gt;(..)&lt;/b&gt; para consultar por un rango determinado de fechas.&lt;/br&gt;&lt;/br&gt;&lt;b&gt;Ejemplo 1:&lt;/b&gt; &lt;i&gt;&lt; 01/01/1999&lt;/i&gt;.&lt;/br&gt;Para consultar todos los documentos celebrados antes del 1&#176; de enero de 1999.&lt;/br&gt;&lt;/br&gt;Tambi&amp;#233;n puede utilizar dos puntos &lt;b&gt;(..)&lt;/b&gt; para filtrar entre dos fechas determinadas.&lt;/br&gt;&lt;/br&gt;&lt;b&gt;Ejemplo 2:&lt;/b&gt; &lt;i&gt;01/01/1999..30/06/1999&lt;/i&gt;&lt;/br&gt;Para consultar todos los documentos celebrados durante el primer semestre de 1999.')" 
+  onkeypress="if (event.keyCode==13) {ShowHelpWindow('B&#250;squeda | Fecha de celebraci&#243;n','Especifique aqu&amp;#237; la fecha de celebraci&amp;#243;n del convenio o acuerdo.&lt;/br&gt;Si conoce la fecha exacta ingr&amp;#233;sela.&lt;/br&gt;Tambi&amp;#233;n puede utilizar los operadores&lt;/br&gt;mayor &lt;b&gt;(&gt;)&lt;/b&gt;, menor &lt;b&gt;(&lt;)&lt;/b&gt; o entre &lt;b&gt;(..)&lt;/b&gt; para consultar por un rango determinado de fechas.&lt;/br&gt;&lt;/br&gt;&lt;b&gt;Ejemplo 1:&lt;/b&gt; &lt;i&gt;&lt; 01/01/1999&lt;/i&gt;.&lt;/br&gt;Para consultar todos los documentos celebrados antes del 1&#176; de enero de 1999.&lt;/br&gt;&lt;/br&gt;Tambi&amp;#233;n puede utilizar dos puntos &lt;b&gt;(..)&lt;/b&gt; para filtrar entre dos fechas determinadas.&lt;/br&gt;&lt;/br&gt;&lt;b&gt;Ejemplo 2:&lt;/b&gt; &lt;i&gt;01/01/1999..30/06/1999&lt;/i&gt;&lt;/br&gt;Para consultar todos los documentos celebrados durante el primer semestre de 1999.');}" 
+  ><img alt="Haga click aquí para ver la ayuda de este campo" src="../Images/Navegacion/Ayuda.gif" border="0" name="FechaCelebracionAyuda"></a>
+						</td>
+						<td width="1%"></td>
+
+						<td align="right" width="20%"><b> Fecha de homologaci&#243;n</b></td>
+						<td width="1%"></td>
+						<td width="15%"><input type="text" id="FechaHomologacion" name="FechaHomologacion" class="formobjConsulta" maxlength="102"   onkeypress="javascript: return validKeyEvent(event, 'FechaHomologacion', 'DATETIME')"  value="">
+</td>
+						<td width="3%">
+							<!-- FechaHomologacionAyuda - Haga click aquí para ver la ayuda de este campo --><a tabindex="-1" 
+  onmouseover="this.style.cursor='pointer';FechaHomologacionAyuda.src='../Images/Navegacion/AyudaOn.gif';window.status='Haga click aquí para ver la ayuda de este campo';return true" 
+  onmouseout ="this.style.cursor='default';FechaHomologacionAyuda.src='../Images/Navegacion/Ayuda.gif';window.status='';return true" 
+  href="javascript:ShowHelpWindow('B&#250;squeda | Fecha de homologaci&#243;n','Especifique aqu&amp;#237; la fecha de homologaci&amp;#243;n del convenio o acuerdo.&lt;/br&gt;Si conoce la fecha exacta ingr&amp;#233;sela.&lt;/br&gt;Tambi&amp;#233;n puede utilizar los operadores&lt;/br&gt;mayor &lt;b&gt;(&gt;)&lt;/b&gt;, menor &lt;b&gt;(&lt;)&lt;/b&gt; o entre &lt;b&gt;(..)&lt;/b&gt; para consultar por un rango determinado de fechas.&lt;/br&gt;&lt;/br&gt;&lt;b&gt;Ejemplo 1:&lt;/b&gt; &lt;i&gt;&lt; 01/01/1999&lt;/i&gt;.&lt;/br&gt;Para consultar todos los documentos homologados antes del 1&#176; de enero de 1999.&lt;/br&gt;&lt;/br&gt;Tambi&amp;#233;n puede utilizar dos puntos &lt;b&gt;(..)&lt;/b&gt; para filtrar entre dos fechas determinadas.&lt;/br&gt;&lt;/br&gt;&lt;b&gt;Ejemplo 2:&lt;/b&gt; &lt;i&gt;01/01/1999..30/06/1999&lt;/i&gt;&lt;/br&gt;Para consultar todos los documentos homologados durante el primer semestre de 1999.')" 
+  onkeypress="if (event.keyCode==13) {ShowHelpWindow('B&#250;squeda | Fecha de homologaci&#243;n','Especifique aqu&amp;#237; la fecha de homologaci&amp;#243;n del convenio o acuerdo.&lt;/br&gt;Si conoce la fecha exacta ingr&amp;#233;sela.&lt;/br&gt;Tambi&amp;#233;n puede utilizar los operadores&lt;/br&gt;mayor &lt;b&gt;(&gt;)&lt;/b&gt;, menor &lt;b&gt;(&lt;)&lt;/b&gt; o entre &lt;b&gt;(..)&lt;/b&gt; para consultar por un rango determinado de fechas.&lt;/br&gt;&lt;/br&gt;&lt;b&gt;Ejemplo 1:&lt;/b&gt; &lt;i&gt;&lt; 01/01/1999&lt;/i&gt;.&lt;/br&gt;Para consultar todos los documentos homologados antes del 1&#176; de enero de 1999.&lt;/br&gt;&lt;/br&gt;Tambi&amp;#233;n puede utilizar dos puntos &lt;b&gt;(..)&lt;/b&gt; para filtrar entre dos fechas determinadas.&lt;/br&gt;&lt;/br&gt;&lt;b&gt;Ejemplo 2:&lt;/b&gt; &lt;i&gt;01/01/1999..30/06/1999&lt;/i&gt;&lt;/br&gt;Para consultar todos los documentos homologados durante el primer semestre de 1999.');}" 
+  ><img alt="Haga click aquí para ver la ayuda de este campo" src="../Images/Navegacion/Ayuda.gif" border="0" name="FechaHomologacionAyuda"></a>
+						</td>
+
+						<td width="8%"></td>
+
+						<td width="1%"></td>
+					</tr>
+				</table>
+
+						</td>
+	</tr>
+	</tbody>
+</table>
+<!-- FIN FORMULARIO -->
+<!-- Separador -->
+<br>
+<!-- Fin Separador -->
+<!-- TABLA TITULO -->
+   <table cellSpacing="0" cellPadding="0" width="98%" border="0" align="center">
+   <tbody>
+		<tr>
+			<td class="TablaEncabezadoTitulos" width="30%" height="22" align="center" >&nbsp;&nbsp;Partes del convenio
+				</td>
+			<td width="70%" align="right">
+			</td>
+		</tr>
+	</tbody>
+	</table>
+<!-- FIN TABLA TITULO -->
+<table class="TablaEncabezado" cellSpacing="0" cellPadding="0" width="98%" border="0" align="center">
+<tbody>
+<tr>
+
+  <td vAlign=top>
+
+
+
+				<!-- Sindicato/s -->
+				<table class="tablaAbmImpar" cellSpacing="0" cellPadding="0" width="100%" border="0" ID="Table3">				
+					<tr>
+						<td width="1%" height="30" ></td>	
+						<td width="12%" class="campos" align="right" ><b> Sindicato/s</b>&nbsp;</td>
+						<td width="1%"></td>         
+						<td widht="81">		
+							<table cellSpacing="0" cellPadding="0" width="100%" border="0"><tr><td><input type="text" id="SindicatosCodigo" name="SindicatosCodigo" class="formobjConsulta"   onchange="javascript:comboAbmOpen( getTarget(event), '..\\Tabla\\AbmSindicatoNombre.asp', 'SindicatoNombreCompleto', null, null, 'SindicatosId=SindicatoNombreId,SindicatosCodigo=SindicatoNombreCompleto', null);"  value="">
+</td><td width="1%">&nbsp;</td><td width="5%"><a href="javascript:comboAbmOpen( null, '..\\Tabla\\AbmSindicatoNombre.asp', 'SindicatoNombreCompleto', null, null, 'SindicatosId=SindicatoNombreId,SindicatosCodigo=SindicatoNombreCompleto', null);"><img src="../images/otros/lupaAbmCombo.gif" border="0" align="absmiddle"></a></td><td width="0%"><input type="hidden" id="SindicatosId" name="SindicatosId" class="formobjConsulta"   style="text-align:Right"  onkeypress="javascript: return validKeyEvent(event, '', 'INTEGER')" value="">
+</td></tr></table>
+</td>
+						<td width="1%"></td>
+						<td width="3%">
+									<!-- SindicatoAyuda - Haga click aquí para ver la ayuda --><a tabindex="-1" 
+  onmouseover="this.style.cursor='pointer';SindicatoAyuda.src='../Images/Navegacion/AyudaOn.gif';window.status='Haga click aquí para ver la ayuda';return true" 
+  onmouseout ="this.style.cursor='default';SindicatoAyuda.src='../Images/Navegacion/Ayuda.gif';window.status='';return true" 
+  href="javascript:ShowHelpWindowScroll('B&#250;squeda | Sindicato','Utilice este campo para consultar los convenios o acuerdos en cuya negociaci&amp;#243;n particip&amp;#243; un sindicato en particular.&lt;br&gt;&lt;br&gt;&lt;b&gt;1)&lt;/b&gt; Ingresando el &lt;i&gt;&lt;b&gt;nombre&lt;/b&gt;&lt;/i&gt; exacto, la &lt;i&gt;&lt;b&gt;sigla&lt;/b&gt;&lt;/i&gt; exacta (sin puntos) o el &lt;i&gt;&lt;b&gt;n&amp;#250;mero de legajo&lt;/b&gt;&lt;/i&gt; del sindicato se listar&amp;#225;n todos los documentos en los que particip&amp;#243; ese sindicato.&lt;br&gt;&lt;br&gt;&lt;b&gt;2)&lt;/b&gt; Ingresando un &lt;i&gt;&lt;b&gt;nombre&lt;/b&gt;&lt;/i&gt;, una &lt;i&gt;&lt;b&gt;sigla&lt;/b&gt;&lt;/i&gt; (sin puntos), un &lt;i&gt;&lt;b&gt;n&amp;#250;mero de legajo&lt;/b&gt;&lt;/i&gt; o parte de los mismos de un Sindicato y presionando en la &lt;b&gt;lupa&lt;/b&gt; obtendr&amp;#225; una lista de Sindicatos que contengan dichos caracteres.&lt;br&gt;&lt;br&gt;&lt;b&gt;Ejemplos:&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;u&gt;a) Es posible buscar por el nombre del sindicato&lt;/u&gt;, ingresando &lt;b&gt;PRENSA&lt;/b&gt; y presionando la &lt;b&gt;lupa&lt;/b&gt;, obtenemos los Sindicatos SINDICATO DE &lt;b&gt;PRENSA&lt;/b&gt; DE ROSARIO, SINDICATO DE &lt;b&gt;PRENSA&lt;/b&gt; DE SALTA, etc.&lt;br&gt;&lt;br&gt;&lt;u&gt;b) Es posible buscar por la sigla del sindicato&lt;/u&gt;, ingresando &lt;b&gt;SMATA&lt;/b&gt; y presionando la &lt;b&gt;lupa&lt;/b&gt;, obtenemos el Sindicato &lt;b&gt;SMATA&lt;/b&gt; - 227 - SINDICATO DE MECANICOS Y AFINES DEL TRANSPORTE AUTOMOTOR DE LA REPUBLICA ARGENTINA.&lt;br&gt;&lt;br&gt;&lt;u&gt;c) Es posible buscar por el n&amp;#250;mero de legajo del sindicato&lt;/u&gt;, ingresando &lt;b&gt;3155&lt;/b&gt; y presionando la &lt;b&gt;lupa&lt;/b&gt;, obtenemos el Sindicato &lt;b&gt;3155&lt;/b&gt; - SINDICATO DE OBRAS SANITARIAS DE FORMOSA')" 
+  onkeypress="if (event.keyCode==13) {ShowHelpWindowScroll('B&#250;squeda | Sindicato','Utilice este campo para consultar los convenios o acuerdos en cuya negociaci&amp;#243;n particip&amp;#243; un sindicato en particular.&lt;br&gt;&lt;br&gt;&lt;b&gt;1)&lt;/b&gt; Ingresando el &lt;i&gt;&lt;b&gt;nombre&lt;/b&gt;&lt;/i&gt; exacto, la &lt;i&gt;&lt;b&gt;sigla&lt;/b&gt;&lt;/i&gt; exacta (sin puntos) o el &lt;i&gt;&lt;b&gt;n&amp;#250;mero de legajo&lt;/b&gt;&lt;/i&gt; del sindicato se listar&amp;#225;n todos los documentos en los que particip&amp;#243; ese sindicato.&lt;br&gt;&lt;br&gt;&lt;b&gt;2)&lt;/b&gt; Ingresando un &lt;i&gt;&lt;b&gt;nombre&lt;/b&gt;&lt;/i&gt;, una &lt;i&gt;&lt;b&gt;sigla&lt;/b&gt;&lt;/i&gt; (sin puntos), un &lt;i&gt;&lt;b&gt;n&amp;#250;mero de legajo&lt;/b&gt;&lt;/i&gt; o parte de los mismos de un Sindicato y presionando en la &lt;b&gt;lupa&lt;/b&gt; obtendr&amp;#225; una lista de Sindicatos que contengan dichos caracteres.&lt;br&gt;&lt;br&gt;&lt;b&gt;Ejemplos:&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;u&gt;a) Es posible buscar por el nombre del sindicato&lt;/u&gt;, ingresando &lt;b&gt;PRENSA&lt;/b&gt; y presionando la &lt;b&gt;lupa&lt;/b&gt;, obtenemos los Sindicatos SINDICATO DE &lt;b&gt;PRENSA&lt;/b&gt; DE ROSARIO, SINDICATO DE &lt;b&gt;PRENSA&lt;/b&gt; DE SALTA, etc.&lt;br&gt;&lt;br&gt;&lt;u&gt;b) Es posible buscar por la sigla del sindicato&lt;/u&gt;, ingresando &lt;b&gt;SMATA&lt;/b&gt; y presionando la &lt;b&gt;lupa&lt;/b&gt;, obtenemos el Sindicato &lt;b&gt;SMATA&lt;/b&gt; - 227 - SINDICATO DE MECANICOS Y AFINES DEL TRANSPORTE AUTOMOTOR DE LA REPUBLICA ARGENTINA.&lt;br&gt;&lt;br&gt;&lt;u&gt;c) Es posible buscar por el n&amp;#250;mero de legajo del sindicato&lt;/u&gt;, ingresando &lt;b&gt;3155&lt;/b&gt; y presionando la &lt;b&gt;lupa&lt;/b&gt;, obtenemos el Sindicato &lt;b&gt;3155&lt;/b&gt; - SINDICATO DE OBRAS SANITARIAS DE FORMOSA');}" 
+  ><img alt="Haga click aquí para ver la ayuda" src="../Images/Navegacion/Ayuda.gif" border="0" name="SindicatoAyuda"></a>
+						</td>
+						<td width="1%"></td>
+					</tr>					
+				</table>
+								
+				<!-- Empleador -->
+				<table class="tablaAbmPar" cellSpacing="0" cellPadding="0" width="100%" border="0" ID="Table1">				
+					<tr>
+						<td width="1%" height="30"></td>	
+						<td width="12%" class="campos" align="right"><b> Empleador/es</b>&nbsp;</td>
+						<td width="1%"></td>          
+						<td widht="81">		
+							<table cellSpacing="0" cellPadding="0" width="100%" border="0"><tr><td><input type="text" id="Empleadores" name="Empleadores" class="formobjConsulta"   onchange="javascript:comboAbmOpen( getTarget(event), '..\\Tabla\\AbmEmpleador.asp', 'Nombre', null, null, 'EmpleadorId=EmpleadorId,Empleadores=Nombre', null);"  value="">
+</td><td width="1%">&nbsp;</td><td width="5%"><a href="javascript:comboAbmOpen( null, '..\\Tabla\\AbmEmpleador.asp', 'Nombre', null, null, 'EmpleadorId=EmpleadorId,Empleadores=Nombre', null);"><img src="../images/otros/lupaAbmCombo.gif" border="0" align="absmiddle"></a></td><td width="0%"><input type="hidden" id="EmpleadorId" name="EmpleadorId" class="formobjConsulta"   style="text-align:Right"  onkeypress="javascript: return validKeyEvent(event, '', 'INTEGER')" value="">
+</td></tr></table>
+</td>
+							
+						</td>
+						<td width="1%"></td>
+						<td width="3%">
+									<!-- EmpleadorAyuda - Haga click aquí para ver la ayuda de este campo --><a tabindex="-1" 
+  onmouseover="this.style.cursor='pointer';EmpleadorAyuda.src='../Images/Navegacion/AyudaOn.gif';window.status='Haga click aquí para ver la ayuda de este campo';return true" 
+  onmouseout ="this.style.cursor='default';EmpleadorAyuda.src='../Images/Navegacion/Ayuda.gif';window.status='';return true" 
+  href="javascript:ShowHelpWindow('B&#250;squeda | Empleador','Utilice este campo para consultar los convenios o acuerdos en cuya negociaci&amp;#243;n particip&amp;#243; un empleador en particular.&lt;/br&gt;&lt;/br&gt;&lt;b&gt;1)&lt;/b&gt; Ingresando el &lt;i&gt;&lt;b&gt;nombre exacto&lt;/b&gt;&lt;/i&gt; del empleador se listar&amp;#225;n todos los documentos en los que particip&amp;#243; ese empleador.&lt;/br&gt;&lt;/br&gt;&lt;b&gt;2)&lt;/b&gt; Ingresando una palabra o parte de la misma de un Empleador y presionando en la &lt;b&gt;lupa&lt;/b&gt; obtendr&amp;#225; una lista de Empleadores que contengan dichos caracteres.&lt;/br&gt;&lt;b&gt;Ejemplo:&lt;/b&gt; Ingresando &lt;b&gt;GAS&lt;/b&gt; y presionando la &lt;b&gt;lupa&lt;/b&gt;, obtenemos los Empleadores YPF &lt;b&gt;GAS&lt;/b&gt; S.A., LITORAL &lt;b&gt;GAS&lt;/b&gt; S.A., etc.&lt;/br&gt;&lt;/br&gt;&lt;b&gt;3)&lt;/b&gt;Presionando directamente en la &lt;b&gt;lupa&lt;/b&gt; se listar&amp;#225;n todos los Empleadores disponibles.')" 
+  onkeypress="if (event.keyCode==13) {ShowHelpWindow('B&#250;squeda | Empleador','Utilice este campo para consultar los convenios o acuerdos en cuya negociaci&amp;#243;n particip&amp;#243; un empleador en particular.&lt;/br&gt;&lt;/br&gt;&lt;b&gt;1)&lt;/b&gt; Ingresando el &lt;i&gt;&lt;b&gt;nombre exacto&lt;/b&gt;&lt;/i&gt; del empleador se listar&amp;#225;n todos los documentos en los que particip&amp;#243; ese empleador.&lt;/br&gt;&lt;/br&gt;&lt;b&gt;2)&lt;/b&gt; Ingresando una palabra o parte de la misma de un Empleador y presionando en la &lt;b&gt;lupa&lt;/b&gt; obtendr&amp;#225; una lista de Empleadores que contengan dichos caracteres.&lt;/br&gt;&lt;b&gt;Ejemplo:&lt;/b&gt; Ingresando &lt;b&gt;GAS&lt;/b&gt; y presionando la &lt;b&gt;lupa&lt;/b&gt;, obtenemos los Empleadores YPF &lt;b&gt;GAS&lt;/b&gt; S.A., LITORAL &lt;b&gt;GAS&lt;/b&gt; S.A., etc.&lt;/br&gt;&lt;/br&gt;&lt;b&gt;3)&lt;/b&gt;Presionando directamente en la &lt;b&gt;lupa&lt;/b&gt; se listar&amp;#225;n todos los Empleadores disponibles.');}" 
+  ><img alt="Haga click aquí para ver la ayuda de este campo" src="../Images/Navegacion/Ayuda.gif" border="0" name="EmpleadorAyuda"></a>
+						</td>
+						<td width="1%"></td>
+					</tr>			
+				</table>
+
+                		</td>
+	</tr>
+	</tbody>
+</table>
+<!-- FIN FORMULARIO -->
+<!-- Separador -->
+<br>
+<!-- Fin Separador -->
+<!-- TABLA TITULO -->
+   <table cellSpacing="0" cellPadding="0" width="98%" border="0" align="center">
+   <tbody>
+		<tr>
+			<td class="TablaEncabezadoTitulos" width="30%" height="22" align="center" >&nbsp;&nbsp;Datos del Expediente
+				</td>
+			<td width="70%" align="right">
+			</td>
+		</tr>
+	</tbody>
+	</table>
+<!-- FIN TABLA TITULO -->
+<table class="TablaEncabezado" cellSpacing="0" cellPadding="0" width="98%" border="0" align="center">
+<tbody>
+<tr>
+
+  <td vAlign=top>
+
+
+
+<table class="tablaAbmImpar" cellSpacing="0" cellPadding="0" width="100%" border="0" ID="Table46">
+					<tbody>
+						<tr>
+						<td height="30" width="1%"></td>		    
+						<td class="campos" align="right" width="8%"><b>Tipo Doc.</b></td>
+						<td width="1%"></td>
+						<td align="left" width="25%"><select style="behavior:url('../include/Select.htc')" id="HomTipoDocumentoId" name="HomTipoDocumentoId" class="formobjConsulta"  >
+<option value="" selected> --Seleccione--</option>
+<option value="1">EXPEDIENTE</option>
+<option value="2">TRAMITE INTERNO</option>
+</select>
+
+</td>
+						<td width="1%"></td>          
+						<td class="campos" align="right" width="5%"><b>N°</b></td>
+						<td width="1%"></td>
+						<td align="left" width="9%"><input type="text" id="HomNumeroDocumento" name="HomNumeroDocumento" class="formobjConsulta" maxlength="26"   style="text-align:Right"  onkeypress="javascript: return validKeyEvent(event, 'HomNumeroDocumento', 'INTEGER')" value="">
+</td>
+						<td width="1%"></td>
+						<td class="campos" align="right" width="4%"><b>A&#241;o</b></td>
+						<td width="1%"></td>          
+						<td align="left" width="6%"><input type="text" id="HomAnioDocumento" name="HomAnioDocumento" class="formobjConsulta" maxlength="10"   style="text-align:Right"  onkeypress="javascript: return validKeyEvent(event, 'HomAnioDocumento', 'INTEGER')" value="">
+</td>
+						<td width="1%"></td>
+						</tr>
+					</tbody>
+				</table>
+						</td>
+	</tr>
+	</tbody>
+</table>
+<!-- FIN FORMULARIO -->
+<!-- Separador -->
+<br>
+<!-- Fin Separador -->
+<table align="center" cellSpacing="0" cellPadding="0" width="98%" border="0">
+  <tr>
+    <td align="right" width="100%">
+<button style="width:70px" class="buttonNew" onMouseOver="this.style.color='#3F67A3'; this.style.cursor='pointer';" onMouseOut="this.style.color='#000000'; this.style.cursor='default';" accesskey="b" onclick="javascript:FireEvent('Buscar')"><u>B</u>uscar</button>
+&nbsp;
+<button style="width:70px" class="buttonNew" onMouseOver="this.style.color='#3F67A3'; this.style.cursor='pointer';" onMouseOut="this.style.color='#000000'; this.style.cursor='default';" accesskey="c" onclick="javascript:FireEvent('Cancelar')"><u>C</u>ancelar</button>
+    </td></tr>
+ </table>
+<br></div>
+<!-- FIN divAbmForm -->
+
+				
+				<!-- GRILLA PARA CONSULTA -->									
+					<!-- TITULOS GRILLA -->
+					<table class="tablaEncabezadoTitulos" height="22" border="0" cellSpacing="0" cellPadding="0" width="98%" align="center" ID="TTitulosGrilla">						
+						<tr>
+							<td width="1%"></td>
+							<td width="12%" align="center"><b><a href="#" class="encabezado" style="color: #3F67A3" tabindex="-1" onclick="javascript:Ordenar('TipoDocDescripcion');return false;">Tipo|N&#176;+</a></b></td>
+							<td width="1%"></td>
+							<td width="10%" align="center"><b><a href="#" class="encabezado" style="color: #3F67A3" tabindex="-1" onclick="javascript:Ordenar('FechaCelebracion');return false;">Fecha de Celebraci&#243;n+</a></b></td>
+							<td width="2%"></td>
+							<td width="14%" align="center"><b><a href="#" class="encabezado" style="color: #3F67A3" tabindex="-1" onclick="javascript:Ordenar('ActividadDescripcion');return false;">Tipo|Actividad+</a></b></td>
+							<td width="1%"></td>
+							<td width="58%" align="center"><b><a href="#" class="encabezado" style="color: #3F67A3" tabindex="-1" onclick="javascript:Ordenar('Sindicatos');return false;">Sindicato|Empleador|Contenido+</a></b></td>
+							<td width="1%"></td>
+						</tr>
+					</table>
+					<!-- FIN TITULOS GRILLA-->
+					<table class="tablaEncabezado" border="0" cellSpacing="0" cellPadding="0" width="98%" ID="TGrilla" align="center">
+						<tr>
+							<td vAlign="top" align="middle" width="100%">								
+							
+								<!-- GRILLA RESULTADO -->
+							
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmSelected" numrow="1" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'73476');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('73476');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>CONVENIO COLECTIVO DE TRABAJO</b><br>
+											808/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>29-10-2023</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>TEXTILES</b></br>EMPLEADOS TEXTILES</td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>SETIA - SINDICATO DE EMPLEADOS TEXTILES DE LA INDUSTRIA Y AFINES DE LA REPUBLICA ARGENTINA</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">FEDERACION DE INDUSTRIAS TEXTILES ARGENTINAS (F.I.T.A.)</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">ABSORCION; BONIFICACION POR ANTIGUEDAD; BONIFICACION POR ZONA INHOSPITA; CATEGORIAS; COMISION PARITARIA DE INTERPRETACION; COMUNICACIONES GREMIALES; DIA DEL GREMIO; EQUIPOS DE PROTECCION; FERIADOS NACIONALES; FONDO PARA LA ASISTENCIA SOCIAL;<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmImpar" numrow="2" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'74546');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('74546');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>CONVENIO COLECTIVO DE TRABAJO</b><br>
+											1707/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>03-06-2019</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>CASINOS</b></td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>ALEARA - SINDICATO DE TRABAJADORES DE JUEGOS DE AZAR, ENTRETENIMIENTO, ESPARCIMIENTO, RECREACION Y AFINES DE LA REPUBLICA ARGENTINA</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">CASINO DE VICTORIA S.A.</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">ABSORCION Y/O COMPENSACION HASTA SU CONCURRENCIA; ACCIDENTES DE TRABAJO Y ENFERMEDADES; ACOSO, PERSECUCIÓN E INTIMIDACION; CATEGORIAS; CO.PAR.; COMISION PARITARIA DE INTERPRETACION; COMPLEMENTO POR ANTIGUEDAD;<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmPar" numrow="3" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'73997');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('73997');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>CONVENIO COLECTIVO DE TRABAJO</b><br>
+											1706/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>30-09-2016</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>FERROVIARIOS</b></td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>UNION FERROVIARIA</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">FERROCARRIL INTERNACIONAL CASIMIRO S.A.</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">ACCIDENTES DE TRABAJO Y ENFERMEDADES PROFESIONALES; ADICIONAL FALLA DE CAJA; ANTIGUEDAD; APORTE PARA CAPACITACION; AUTOCOMPOSICION DE CONFLICTOS; BONIFICACION POR ANTIGUEDAD; CARTELERA; CONTRIBUCION SOLIDARIA; CUOTA SINDICAL;<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmImpar" numrow="4" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'73853');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('73853');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>CONVENIO COLECTIVO DE TRABAJO</b><br>
+											1705/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>26-12-2023</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>TABACO</b></br>ACOPIO (INCLUYE DEPOSITO Y/O PREINDUSTRIALIZACION)</td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>SINDICATO DE OBREROS DEL TABACO DE SALTA</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">TABES S.A.</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">ADICIONAL POR TAREAS REALIZADAS ENTRE LAS HORAS 21:00 Y LAS 06:00; BONIFICACION ESPECIAL PARA PERSONAL QUE SE JUBILA; BONO PRODUCTIVIDAD; CAPACITACION; COMEDOR; COMISION DE INTERPRETACION Y ACTUALIZACION DEL CONVENIO; DIA DEL TABACO;<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmPar" numrow="5" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'73565');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('73565');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>CONVENIO COLECTIVO DE TRABAJO</b><br>
+											1704/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>01-09-2023</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>ENERGIA ELECTRICA</b></br>PERSONAL SUPERIOR DE LA ENERGIA ELECTRICA</td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>APJAE - ASOCIACION DEL PERSONAL JERARQUICO DEL AGUA Y LA ENERGIA</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">EMPRESA DISTRIBUIDORA DE ELECTRICIDAD DE MENDOZA S.A.</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">ADICIONAL POR DEDICACION FUNCIONAL; ADICIONAL POR RESPONSABILIDAD JERARQUICA; ADICIONAL POR TRABAJO MEDIANTE TURNOS ROTATIVOS; ANTIGUEDAD; APORTE DEL PERSONAL; ASIGNACION ANUAL COMPLEMENTARIA POR TURISMO;<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmImpar" numrow="6" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'73612');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('73612');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>CONVENIO COLECTIVO DE TRABAJO</b><br>
+											1703/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>06-12-2023</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>ENTIDADES DEPORTIVAS Y CIVILES</b></br>EMPLEADOS ENTIDADES DEPORTIVAS Y CIVILES</td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>UTEDYC - UNION TRABAJADORES DE ENTIDADES DEPORTIVAS Y CIVILES</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">CAJA DE PREVISION SOCIAL PARA ABOGADOS DE LA PROVINCIA DE BUENOS AIRES</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">ACTIVIDADES GREMIALES; ALMUERZO; BENEFICIO POR ANTIGUEDAD; BENEFICIO POR AYUDA ESCOLAR; BENEFICIO POR MATRIMONIO; BENEFICIO POR NACIMIENTO DE HIJO; BENEFICIOS POR JUBILACION; BONIFICACION POR ANTIGUEDAD; BONIFICACION POR PUNTUALIDAD;<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmPar" numrow="7" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'73811');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('73811');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>ACUERDO</b><br>
+											999/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>26-02-2024</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>ENERGIA ELECTRICA</b></br>PROFESIONALES UNIVERSITARIOS DEL AGUA Y LA ENERGIA</td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>APUAYE - ASOCIACION DE PROFESIONALES UNIVERSITARIOS DEL AGUA Y ENERGIA ELECTRICA</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">EMPRESA DISTRIBUIDORA SAN LUIS S.A.</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">AYUDA POR ESCOLARIDAD; ESCALA SALARIAL; INCREMENTO SALARIAL<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmImpar" numrow="8" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'73822');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('73822');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>ACUERDO</b><br>
+											998/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>24-06-2024</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>CAUCHO</b></br>INDUSTRIA DEL CAUCHO</td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>SECA - SINDICATO DE EMPLEADOS DEL CAUCHO Y AFINES</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">FEDERACION ARGENTINA DE LA INDUSTRIA DEL CAUCHO</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">ABSORCION HASTA SU CONCURRENCIA; BONIFICACION POR ANTIGUEDAD; ESCALA SALARIAL; INCREMENTO SALARIAL; PAZ SOCIAL; SALARIO MINIMO GARANTIZADO; SUBSIDIO POR FALLECIMIENTO E INCAPACIDAD<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmPar" numrow="9" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'73810');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('73810');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>ACUERDO</b><br>
+											997/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>05-08-2024</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>FERROVIARIOS</b></td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>UNION FERROVIARIA</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">FERROVIAS S.A. CONCESIONARIA</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">ESCALA SALARIAL; INCREMENTO SALARIAL; PAZ SOCIAL<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmImpar" numrow="10" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'73821');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('73821');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>ACUERDO</b><br>
+											996/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>05-07-2024</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>INDUSTRIAS QUIMICAS Y PETROQUIMICAS</b></td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>FEDERACION DE SINDICATOS DE TRABAJADORES DE INDUSTRIAS QUIMICAS Y PETROQUIMICAS DE LA REPUBLICA ARGENTINA</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">CAMARA DE LA INDUSTRIA QUIMICA Y PETROQUIMICA</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">CONTRIBUCION PATRONAL EXTRAORDINARIA<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmPar" numrow="11" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'73820');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('73820');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>ACUERDO</b><br>
+											995/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>05-07-2024</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>INDUSTRIAS QUIMICAS Y PETROQUIMICAS</b></td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>FEDERACION DE SINDICATOS DE TRABAJADORES DE INDUSTRIAS QUIMICAS Y PETROQUIMICAS DE LA REPUBLICA ARGENTINA</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">CAMARA DE LA INDUSTRIA QUIMICA Y PETROQUIMICA</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">ABSORCION; APORTE SOLIDARIO; CONTRIBUCION PATRONAL; ESCALA SALARIAL; INCREMENTO SALARIAL; REVISION; SUMA FIJA SOLIDARIA<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmImpar" numrow="12" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'73804');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('73804');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>ACUERDO</b><br>
+											994/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>19-07-2024</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>INDUSTRIAS QUIMICAS Y PETROQUIMICAS</b></td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>FEDERACION DE SINDICATOS DE TRABAJADORES DE INDUSTRIAS QUIMICAS Y PETROQUIMICAS DE LA REPUBLICA ARGENTINA</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">CAMARA DE LA INDUSTRIA QUIMICA Y PETROQUIMICA</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">ABSORCION; APORTE SOLIDARIO; CONTRIBUCION PATRONAL; ESCALA SALARIAL; GRATIFICACION EXTRAORDINARIA POR UNICA VEZ; INCREMENTO SALARIAL; RETROACTIVIDAD; REVISION; SUMA FIJA SOLIDARIA<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmPar" numrow="13" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'73802');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('73802');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>ACUERDO</b><br>
+											993/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>19-07-2024</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>INDUSTRIAS QUIMICAS Y PETROQUIMICAS</b></td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>FEDERACION DE SINDICATOS DE TRABAJADORES DE INDUSTRIAS QUIMICAS Y PETROQUIMICAS DE LA REPUBLICA ARGENTINA</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">CAMARA DE LA INDUSTRIA QUIMICA Y PETROQUIMICA</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">CONTRIBUCION PATRONAL EXTRAORDINARIA<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmImpar" numrow="14" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'74219');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('74219');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>ACUERDO</b><br>
+											992/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>08-02-2024</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>AUTOMOTRIZ</b></br>CONCESIONARIOS DE AUTOMOTORES</td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>SMATA - SINDICATO DE MECANICOS Y AFINES DEL TRANSPORTE AUTOMOTOR DE LA REPUBLICA ARGENTINA</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">ALRA S.A.</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">ASIGNACION NO REMUNERATIVA - ART 223 BIS LCT; PAZ SOCIAL; SUSPENSION DEL PERSONAL - ART 223 BIS LCT<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmPar" numrow="15" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'74218');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('74218');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>ACUERDO</b><br>
+											991/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>15-02-2024</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>TEXTILES</b></br>EMPLEADOS TEXTILES</td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>SETIA - SINDICATO DE EMPLEADOS TEXTILES DE LA INDUSTRIA Y AFINES DE LA REPUBLICA ARGENTINA</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">TEJIDOS CATAMARCA S.R.L</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">ASIGNACION NO REMUNERATIVA - ART 223 BIS LCT; SUSPENSION DEL PERSONAL - ART 223 BIS LCT<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmImpar" numrow="16" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'74173');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('74173');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>ACUERDO</b><br>
+											990/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>21-11-2023</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>METALURGICOS</b></td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>UOMRA - UNION OBRERA METALURGICA DE LA REPUBLICA ARGENTINA - UOMRA</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">TERNIUM ARGENTINA S.A. (antes SIDERAR S.A.I.C.)</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">PRESTACION NO REMUNERATIVA ART 223 BIS LCT; SUSPENSIONES EN LOS TERMINOS DEL ART 223 BIS<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmPar" numrow="17" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'53050');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('53050');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>ACUERDO</b><br>
+											99/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>09-01-2024</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>CARGA Y DESCARGA</b></td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>UTCYDRA - UNION TRABAJADORES DE CARGA Y DESCARGA DE LA REPUBLICA ARGENTINA</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">MELI LOG SOCIEDAD DE RESPONSABILIDAD LIMITADA</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">PRESENTISMO Y PRODUCTIVIDAD<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmImpar" numrow="18" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'74172');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('74172');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>ACUERDO</b><br>
+											989/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>04-06-2024</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>TEXTILES</b></br>EMPLEADOS TEXTILES</td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>SETIA - SINDICATO DE EMPLEADOS TEXTILES DE LA INDUSTRIA Y AFINES DE LA REPUBLICA ARGENTINA</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">EMILIO ALAL S.A.C.I.F.I.;INMOBILIARIA COMERCIAL, INDUSTRIAL, FINANCIERA E INMOBILIARIA</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">CUOTA SINDICAL; OBRA SOCIAL; PRESTACION NO REMUNERATIVA ART 223 BIS LCT; SUSPENSIONES EN LOS TERMINOS DEL ART 223 BIS<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmPar" numrow="19" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'74171');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('74171');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>ACUERDO</b><br>
+											988/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>27-12-2021</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>LOTERIA</b></td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>ALEARA - SINDICATO DE TRABAJADORES DE JUEGOS DE AZAR, ENTRETENIMIENTO, ESPARCIMIENTO, RECREACION Y AFINES DE LA REPUBLICA ARGENTINA</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">ARGENBINGO S.A.</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">BONIFICACION EXTRAORDINARIA<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmImpar" numrow="20" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'73801');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('73801');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>ACUERDO</b><br>
+											987/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>02-11-2022</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>FERROVIARIOS</b></br>CONDUCCION LOCOMOTORAS</td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>SINDICATO LA FRATERNIDAD</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">EMPRESA OPERADORA FERROVIARIA SOCIEDAD DEL ESTADO (SOFSE)</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">APORTE EMPRESARIO PARA ACTIVIDADES CULTURALES, SOCIALES Y DE CAPACITACION DE LOS TRABAJADORES; CONTRIBUCION ESPECIAL PARA LA OBRA SOCIAL FERROVIARIA; PAZ SOCIAL; SUMA NO REMUNERATIVA<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmPar" numrow="21" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'73800');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('73800');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>ACUERDO</b><br>
+											986/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>02-11-2022</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>FERROVIARIOS</b></br>CONDUCCION LOCOMOTORAS</td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>SINDICATO LA FRATERNIDAD</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">EMPRESA OPERADORA FERROVIARIA SOCIEDAD DEL ESTADO (SOFSE)</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">ESCALA SALARIAL; ESCALA SALARIAL: ADICIONALES; INCREMENTO SALARIAL; PAZ SOCIAL; REVISION<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmImpar" numrow="22" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'73799');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('73799');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>ACUERDO</b><br>
+											985/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>01-03-2023</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>TELEFONICOS</b></td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>FEDERACION ARGENTINA DE LAS TELECOMUNICACIONES - F.A.T.E.L.</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">TELEFONICA DE ARGENTINA S.A.</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">ADICIONAL ESPECIAL; DIA DEL TRABAJADOR TELEFONICO; ESCALA SALARIAL; ESCALA SALARIAL: ADICIONALES; INCREMENTO SALARIAL; PAGO UNICO EXTRAORDINARIO<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmPar" numrow="23" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'73793');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('73793');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>ACUERDO</b><br>
+											984/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>06-11-2020</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>FERROVIARIOS</b></td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>APDFA - ASOCIACION DEL PERSONAL DE DIRECCION DE LOS FERROCARRILES ARGENTINOS</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">ADMINISTRACION DE INFRAESTRUCTURAS FERROVIARIAS SOCIEDAD DE ESTADO</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">ESCALA SALARIAL; ESCALA SALARIAL: ADICIONALES; INCREMENTO SALARIAL; PAZ SOCIAL; REVISION<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmImpar" numrow="24" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'73792');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('73792');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>ACUERDO</b><br>
+											983/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>06-11-2022</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>FERROVIARIOS</b></td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>APDFA - ASOCIACION DEL PERSONAL DE DIRECCION DE LOS FERROCARRILES ARGENTINOS</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">ADMINISTRACION DE INFRAESTRUCTURAS FERROVIARIAS SOCIEDAD DE ESTADO</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">ABSORCION DTO 56/20<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmPar" numrow="25" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'73791');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('73791');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>ACUERDO</b><br>
+											982/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>09-08-2021</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>PASTELEROS</b></br>ALFAJORES Y POSTRES INDUSTRIALIZADOS</td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>SINDICATO TRABAJADORES ALFAJOREROS REPOSTEROS PIZZEROS Y HELADEROS (S.T.A.R.P.Y H. - MAR DEL PLATA)</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">ESTABLECIMIENTO LAGRIFA S.A.;HAVANNA S.A.;MIOSTICI S.A.C.I.F.;POSTRES BALCARCE SOCIEDAD ANONIMA</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">ABSORCION Y/O COMPENSACION HASTA SU CONCURRENCIA; ESCALA SALARIAL; ESCALA SALARIAL: ADICIONALES; INCREMENTO SALARIAL NO REMUNERATIVO CON CONVERSION; RETROACTIVIDAD; REVISION<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmImpar" numrow="26" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'73790');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('73790');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>ACUERDO</b><br>
+											981/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>30-07-2024</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>AGUA POTABLE</b></td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>FENTOS - FEDERACION NACIONAL DE TRABAJADORES DE OBRAS SANITARIAS;SGBTOS - SINDICATO GRAN BUENOS AIRES DE TRABAJADORES DE OBRAS SANITARIAS</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">AGUA Y SANEAMIENTOS ARGENTINOS S.A.</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">ESCALA SALARIAL; ESCALA SALARIAL: ADICIONALES; INCREMENTO SALARIAL<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmPar" numrow="27" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'73789');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('73789');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>ACUERDO</b><br>
+											980/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>03-03-2023</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>ENERGIA ELECTRICA</b></br>PERSONAL SUPERIOR DE LA ENERGIA ELECTRICA</td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>APJAE - ASOCIACION DEL PERSONAL JERARQUICO DEL AGUA Y LA ENERGIA</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">CENTRAL TERMOELECTRICA GUILLERMO BROWN S.A.</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">ESCALA SALARIAL; INCREMENTO SALARIAL; REVISION<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmImpar" numrow="28" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'53049');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('53049');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>ACUERDO</b><br>
+											98/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>17-01-2024</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>ENTIDADES DEPORTIVAS Y CIVILES</b></br>CLUBES DE CAMPO, BARRIOS PRIVADOS Y URBANIZACIONES ESPECIALES</td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>UTEDYC - UNION TRABAJADORES DE ENTIDADES DEPORTIVAS Y CIVILES</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">FEDERACION ARGENTINA DE CLUBES DE CAMPO</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">APORTES Y CONTIBUCIONES; CONTRIBUCION PATRONAL; CONTRIBUCION SOLIDARIA; ESCALA SALARIAL; ESCALA SALARIAL: ADICIONALES; INCREMENTO SALARIAL CON CONVERSION; REVISION<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmPar" numrow="29" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'73766');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('73766');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>ACUERDO</b><br>
+											979/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>06-11-2020</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>FERROVIARIOS</b></td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>APDFA - ASOCIACION DEL PERSONAL DE DIRECCION DE LOS FERROCARRILES ARGENTINOS</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">DESARROLLO DEL CAPITAL HUMANO FERROVIARIO SAPEM</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">INCREMENTO SALARIAL; PAZ SOCIAL; REVISION<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmImpar" numrow="30" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'73765');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('73765');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>ACUERDO</b><br>
+											978/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>06-11-2020</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>FERROVIARIOS</b></td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>APDFA - ASOCIACION DEL PERSONAL DE DIRECCION DE LOS FERROCARRILES ARGENTINOS</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">DESARROLLO DEL CAPITAL HUMANO FERROVIARIO SAPEM</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">ABSORCION DTO 56/20<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmPar" numrow="31" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'73763');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('73763');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>ACUERDO</b><br>
+											977/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>23-11-2022</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>MEDICOS</b></td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>ASOCIACION DE MEDICOS DE LA ACTIVIDAD PRIVADA</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">CAMARA DE EMERGENCIAS MEDICAS DE LA CAPITAL</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">ASIGNACION POR MATERNIDAD; CONTRIBUCION DE SOLIDARIDAD; ESCALA SALARIAL; ESCALA SALARIAL: ADICIONALES; INCREMENTO SALARIAL; PRESTACION POR LAVADO Y PLANCHADO DE UNIFORME; RECONOCIMIENTO RECIPROCO; VALORES LAVADO Y PLANCHADO POR INCIDENTE;<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmImpar" numrow="32" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'73762');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('73762');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>ACUERDO</b><br>
+											976/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>30-06-2022</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>MEDICOS</b></td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>ASOCIACION DE MEDICOS DE LA ACTIVIDAD PRIVADA</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">CAMARA DE EMERGENCIAS MEDICAS DE LA CAPITAL</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">ASIGNACION POR MATERNIDAD; CONTRIBUCION DE SOLIDARIDAD; ESCALA SALARIAL; ESCALA SALARIAL: ADICIONALES; INCREMENTO SALARIAL; PRESTACION POR LA VADO Y PLANCHADO DE UNIFORME; RECONOCIMIENTO RECIPROCO; VALORES LAVADO Y PLANCHADO POR INCIDENTE;<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmPar" numrow="33" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'73760');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('73760');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>ACUERDO</b><br>
+											975/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>23-03-2022</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>BANCARIOS</b></td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>ASOCIACION BANCARIA (SOCIEDAD DE EMPLEADOS DE BANCO)</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">BANCO CENTRAL DE LA REPUBLICA ARGENTINA</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">ESCALA SALARIAL; INCREMENTO SALARIAL<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmImpar" numrow="34" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'73759');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('73759');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>ACUERDO</b><br>
+											974/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>15-03-2022</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>FERROVIARIOS</b></td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>UNION FERROVIARIA</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">OPERADORA FERROVIARIA SOCIEDAD DEL ESTADO (SOFSE) - LARGA DISTANCIA Y REGIONALES</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">BONO POR EL DIA DE LOS Y LAS FERROVIARIOS<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmPar" numrow="35" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'73758');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('73758');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>ACUERDO</b><br>
+											973/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>15-03-2022</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>FERROVIARIOS</b></td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>UNION FERROVIARIA</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">OPERADORA FERROVIARIA SOCIEDAD DEL ESTADO (SOFSE) - LARGA DISTANCIA Y REGIONALES</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">ESCALA SALARIAL; ESCALA SALARIAL: ADICIONALES; INCREMENTO SALARIAL; PAZ SOCIAL; REVISION<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmImpar" numrow="36" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'73757');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('73757');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>ACUERDO</b><br>
+											972/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>25-03-2022</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>MEDICOS</b></td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>ASOCIACION DE MEDICOS DE LA ACTIVIDAD PRIVADA</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">CAMARA DE EMERGENCIAS MEDICAS DE LA CAPITAL</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">ASIGNACION POR MATERNIDAD; CONTRIBUCION DE SOLIDARIDAD; ESCALA SALARIAL; ESCALA SALARIAL: ADICIONALES; INCREMENTO SALARIAL; PRESTACION POR LAVADO Y PLANCHADO DE UNIFORME; RECONOCIMIENTO RECIPROCO; VALORES LAVADO Y PLANCHADO POR INCIDENTE;<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmPar" numrow="37" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'73756');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('73756');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>ACUERDO</b><br>
+											971/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>30-09-2021</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>MEDICOS</b></td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>ASOCIACION DE MEDICOS DE LA ACTIVIDAD PRIVADA</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">CAMARA DE EMERGENCIAS MEDICAS DE LA CAPITAL</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">ASIGNACION POR MATERNIDAD; CONTRIBUCION DE SOLIDARIDAD; ESCALA SALARIAL; ESCALA SALARIAL: ADICIONALES; INCORPORACION DEL ART. 4.14 AL CCT N 559/09: INCIDENTES; INCREMENTO SALARIAL; PRESTACION POR LA VADO Y PLANCHADO DE UNIFORME;<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmImpar" numrow="38" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'73754');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('73754');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>ACUERDO</b><br>
+											970/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>02-11-2022</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>FERROVIARIOS</b></td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>APDFA - ASOCIACION DEL PERSONAL DE DIRECCION DE LOS FERROCARRILES ARGENTINOS</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">EMPRESA OPERADORA FERROVIARIA SOCIEDAD DEL ESTADO (SOFSE)</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">APORTE EMPRESARIO PARA ACTIVIDADES CULTURALES, SOCIALES Y DE CAPACITACION DE LOS TRABAJADORES; CONTRIBUCION ESPECIAL PARA LA OBRA SOCIAL FERROVIARIA; PAZ SOCIAL; SUMA NO REMUNERATIVA POR UNICA VEZ<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmPar" numrow="39" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'53048');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('53048');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>ACUERDO</b><br>
+											97/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>26-01-2024</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>ENTIDADES DEPORTIVAS Y CIVILES</b></br>MUTUALES</td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>UTEDYC - UNION TRABAJADORES DE ENTIDADES DEPORTIVAS Y CIVILES</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">CONFEDERACION ARGENTINA DE MUTUALIDADES;CONFEDERACION NACIONAL DE MUTUALIDADES DE LA REPUBLICA ARGENTINA</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">ESCALA SALARIAL; ESCALA SALARIAL: ADICIONALES; INCREMENTO SALARIAL CON CONVERSION; REVISION<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmImpar" numrow="40" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'73753');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('73753');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>ACUERDO</b><br>
+											969/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>02-11-2022</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>FERROVIARIOS</b></td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>APDFA - ASOCIACION DEL PERSONAL DE DIRECCION DE LOS FERROCARRILES ARGENTINOS</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">EMPRESA OPERADORA FERROVIARIA SOCIEDAD DEL ESTADO (SOFSE)</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">ESCALA SALARIAL; ESCALA SALARIAL: ADICIONALES; INCREMENTO SALARIAL; PAZ SOCIAL; REVISION<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmPar" numrow="41" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'73805');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('73805');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>ACUERDO</b><br>
+											967/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>06-08-2024</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>METALURGICOS</b></td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>UOMRA - UNION OBRERA METALURGICA DE LA REPUBLICA ARGENTINA - UOMRA</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">ASOCIACION DE FABRICAS ARGENTINAS TERMINALES DE ELECTRONICA;ASOCIACION DE FABRICAS DE COMPONENTES;ASOCIACION DE INDUSTRIALES METALURGICOS DE LA REPUBLICA ARGENTINA;CAMARA ARGENTINA DE LA INDUSTRIA DEL ALUMINIO Y METALES AFINES;FEDERACION DE CAMARA...</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">ESCALA SALARIAL; ESCALA SALARIAL: ADICIONALES; INCREMENTO SALARIAL; INGRESO MINIMO GLOBAL DE REFERENCIA; PAZ SOCIAL<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmImpar" numrow="42" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'73796');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('73796');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>ACUERDO</b><br>
+											966/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>31-03-2023</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>TELEFONICOS</b></td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>FOMMTRA - FEDERACI&#211;N DE ORGANIZACIONES DE LOS MANDOS MEDIOS DE LAS TELECOMUNICACIONES</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">TELECOM ARGENTINA S.A.</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">DIA DEL TRABAJADOR TELEFONICO; ESCALA SALARIAL; ESCALA SALARIAL: ADICIONALES; INCREMENTO SALARIAL<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmPar" numrow="43" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'73795');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('73795');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>ACUERDO</b><br>
+											965/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>30-05-2023</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>ESPECTACULOS</b></br>EXTRAS DE TELEVISION</td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>SUTEP - SINDICATO UNICO DE TRABAJADORES DEL ESPECTACULO PUBLICO Y AFINES DE LA REPUBLICA ARGENTINA</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">ASOCIACION DE TELERADIODIFUSORAS ARGENTINAS;CAMARA ARGENTINA DE PRODUCTORAS INDEPENDIENTES DE TELEVISION(C.A.P.I.T)</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">ABSORCION; BOLO; ESCALA SALARIAL; INCREMENTO SALARIAL<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmImpar" numrow="44" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'73768');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('73768');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>ACUERDO</b><br>
+											963/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>19-04-2023</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>AUTOMOTRIZ</b></br>FABRICACION Y ARMADO DE AUTOMOTORES (INCLUYE PARTES, REPUESTOS Y/O ACCESORIOS)</td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>SMATA - SINDICATO DE MECANICOS Y AFINES DEL TRANSPORTE AUTOMOTOR DE LA REPUBLICA ARGENTINA</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">CESVI ARGENTINA S.A.</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">ABSORCION Y/O COMPENSACION HASTA SU CONCURRENCIA; ESCALA SALARIAL; ESCALA SALARIAL: ADICIONALES; INCREMENTO SALARIAL; PAZ SOCIAL<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmPar" numrow="45" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'73748');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('73748');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>ACUERDO</b><br>
+											962/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>18-07-2019</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>ENTIDADES DEPORTIVAS Y CIVILES</b></br>EMPLEADOS ENTIDADES DEPORTIVAS Y CIVILES</td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>UTEDYC - UNION TRABAJADORES DE ENTIDADES DEPORTIVAS Y CIVILES</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">CAMARA ARGENTINA DE LA INDUSTRIA PLASTICA;CAMARA INDUSTRIAL DE LABORATORIOS FARMACEUTICOS ARGENTINOS(CILFA);UNION INDUSTRIAL ARGENTINA</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">ESCALA SALARIAL; INCREMENTO SALARIAL<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmImpar" numrow="46" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'73747');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('73747');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>ACUERDO</b><br>
+											961/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>18-07-2019</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>ENTIDADES DEPORTIVAS Y CIVILES</b></br>EMPLEADOS ENTIDADES DEPORTIVAS Y CIVILES</td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>UTEDYC - UNION TRABAJADORES DE ENTIDADES DEPORTIVAS Y CIVILES</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">CAMARA ARGENTINA DE LA INDUSTRIA PLASTICA;CAMARA INDUSTRIAL DE LABORATORIOS FARMACEUTICOS ARGENTINOS(CILFA);UNION INDUSTRIAL ARGENTINA</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">ESCALA SALARIAL; INCREMENTO SALARIAL<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmPar" numrow="47" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'73746');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('73746');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>ACUERDO</b><br>
+											960/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>09-05-2024</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>FERROVIARIOS</b></br>TRANSPORTE DE CARGA POR VIAS FERREAS</td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>UNION FERROVIARIA</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">FERROSUR ROCA S.A.</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">APORTE EMPRESARIO PARA ACTIVIDADES CULTURALES, SOCIALES Y DE CAPACITACION DE LOS TRABAJADORES; CONTRIBUCION ESPECIAL PARA LA OBRA SOCIAL FERROVIARIA; ESCALA SALARIAL; ESCALA SALARIAL: ADICIONALES; GRATIFICACION EXTRAORDINARIA POR UNICA VEZ;<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmImpar" numrow="48" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'53047');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('53047');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>ACUERDO</b><br>
+											96/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>06-02-2024</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>FERROVIARIOS</b></td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>APDFA - ASOCIACION DEL PERSONAL DE DIRECCION DE LOS FERROCARRILES ARGENTINOS</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">OPERADORA FERROVIARIA SOCIEDAD DEL ESTADO (SOFSE) - LARGA DISTANCIA Y REGIONALES</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">ESCALA SALARIAL; ESCALA SALARIAL: ADICIONALES; INCREMENTO SALARIAL; PAZ SOCIAL<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmPar" numrow="49" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'73745');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('73745');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>ACUERDO</b><br>
+											959/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>27-09-2023</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>FERROVIARIOS</b></td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>APDFA - ASOCIACION DEL PERSONAL DE DIRECCION DE LOS FERROCARRILES ARGENTINOS</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">EMPRESA OPERADORA FERROVIARIA SOCIEDAD DEL ESTADO (SOFSE)</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">APORTE EMPRESARIO PARA ACTIVIDADES CULTURALES, SOCIALES Y DE CAPACITACION DE LOS TRABAJADORES; CONTRIBUCION ESPECIAL PARA LA OBRA SOCIAL FERROVIARIA; PAZ SOCIAL; SUMA NO REMUNERATIVA<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								<!-- RENGLON RESULTADO -->
+								
+								<table class = "tablaAbmImpar" numrow="50" onmouseover="javascript:rowOnMouseOver(this);" onmouseout="javascript:rowOnMouseOut(this);" onclick="javascript:rowOnClick(this,'73744');" onkeyup="javascript:HandleAbmKey();" ondblclick="javascript:IdClickValue('73744');FireEvent('ConsultarFicha');"  border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>
+
+								
+									<tr>
+										<td width="2%"></td>										
+										<!-- Tipo Documento | Numero -->
+										<td width="12%" class="campos">
+											<b>ACUERDO</b><br>
+											958/2024
+										</td>
+
+										<td width="1%"></td>
+										<td width="10%" class="campos" align="center"><font color="#0D54BF"><b>23-09-2023</b></font></td>
+										<td width="2%"></td>
+
+										<!-- Tipo Convenio | Actividad -->
+										<td width="13%" valign="middle" class="campos">
+											<b></b><br>
+											<b>FERROVIARIOS</b></td>
+										</td>
+
+										<td width="1%"></td>
+										
+										<!-- Empleador | Sindicatos | Contenidos -->
+										<td width="58%" valign="top">
+											<table width="100%" ID="Table8" cellpadding="0" cellspacing="5">
+												<tr>
+													<td width="100%" class="campos"><b>APDFA - ASOCIACION DEL PERSONAL DE DIRECCION DE LOS FERROCARRILES ARGENTINOS</b></td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos">EMPRESA OPERADORA FERROVIARIA SOCIEDAD DEL ESTADO (SOFSE)</td>
+												</tr>
+												<tr>
+													<td width="100%" class="campos"><font color="#0D54BF">ESCALA SALARIAL; ESCALA SALARIAL: ADICIONALES; INCREMENTO SALARIAL; PAZ SOCIAL; REVISION<font color="#0D54BF"></td>											
+												</tr>
+											</table>
+										</td>
+										<td width="1%"></td>									
+									</tr>									
+								
+								<!-- FIN RENGLON RESULTADO -->
+								
+								<!-- Cierro Div para que marque toda la linea-->
+								
+								</tbody>
+							</table>
+								
+								<!-- Barra de Navegación -->
+
+<!-- Linea de Separación -->
+<table cellSpacing="0" cellPadding="0" width="100%" border="0" bgcolor="#3F67A3">
+  <tr>
+    <td height="1"></td>
+	</tr>
+</table>
+<!-- Fin Linea de Separación -->
+
+<table class="tablaAbmImPar" cellSpacing="0" cellPadding="0" width="100%" border="0">
+  <tbody>
+	<tr>
+		<td noWrap width="15%" height="25">
+<!-- Combo de navegación de páginas -->
+<font class="Campos">&nbsp;Pag: </font>
+<select class="Campos" onchange="javascript:IrComboPagina(this)" Id="ComboPagina" name="ComboPagina">
+	<option value="1" selected>1</option>
+	<option value="2">2</option>
+	<option value="3">3</option>
+	<option value="4">4</option>
+	<option value="5">5</option>
+	<option value="6">6</option>
+	<option value="7">7</option>
+	<option value="8">8</option>
+	<option value="9">9</option>
+	<option value="10">10</option>
+</select>
+<!-- Fin Combo de navegación de páginas -->
+
+		</td>
+		<td noWrap width="20%">
+<!-- Combo de cantidad de filas a mostrar -->
+<font class="Campos">&nbsp;Mostrar: </font>
+<select class="Campos" onchange="javascript:CambiarCantFilas(this)" Id="ComboCantFilas" name="ComboCantFilas">
+	<option value="15">de a 15</option>
+	<option value="30">de a 30</option>
+	<option value="50" selected>de a 50</option>
+	<option value="100">de a 100</option>
+	<option value="500">de a 500</option>
+</select>
+<!-- Fin Combo de cantidad de filas a mostrar -->
+
+		</td>
+		<td noWrap align="center" width="35%">
+
+<!-- Botones de Navegación -->
+<!-- Linea de Separación -->
+<img height="25" src="../Images/Navegacion/Line.gif" width="12"><!-- MasAtras - Ir 10 páginas atrás --><a tabindex="-1" 
+  onmouseover="this.style.cursor='pointer';MasAtras.src='../Images/Navegacion/MasAtrasOn.gif';window.status='Ir 10 páginas atrás';return true" 
+  onmouseout ="this.style.cursor='default';MasAtras.src='../Images/Navegacion/MasAtras.gif';window.status='';return true" 
+  onclick="javascript:IrPagina(1)" 
+  onkeypress="if (event.keyCode==13 || event.keyCode==32 ) {IrPagina(1);}" 
+  ><img alt="Ir 10 páginas atrás" src="../Images/Navegacion/MasAtras.gif" border="0" name="MasAtras"></a><!-- Atras - Ir 1 página atras --><a tabindex="-1" 
+  onmouseover="this.style.cursor='pointer';Atras.src='../Images/Navegacion/AtrasOn.gif';window.status='Ir 1 página atras';return true" 
+  onmouseout ="this.style.cursor='default';Atras.src='../Images/Navegacion/Atras.gif';window.status='';return true" 
+  onclick="javascript:IrPagina(1)" 
+  onkeypress="if (event.keyCode==13 || event.keyCode==32 ) {IrPagina(1);}" 
+  ><img alt="Ir 1 página atras" src="../Images/Navegacion/Atras.gif" border="0" name="Atras"></a><!-- Adelante - Ir 1 página adelante --><a tabindex="-1" 
+  onmouseover="this.style.cursor='pointer';Adelante.src='../Images/Navegacion/AdelanteOn.gif';window.status='Ir 1 página adelante';return true" 
+  onmouseout ="this.style.cursor='default';Adelante.src='../Images/Navegacion/Adelante.gif';window.status='';return true" 
+  onclick="javascript:IrPagina(2)" 
+  onkeypress="if (event.keyCode==13 || event.keyCode==32 ) {IrPagina(2);}" 
+  ><img alt="Ir 1 página adelante" src="../Images/Navegacion/Adelante.gif" border="0" name="Adelante"></a><!-- MasAdelante - Ir 10 páginas adelante --><a tabindex="-1" 
+  onmouseover="this.style.cursor='pointer';MasAdelante.src='../Images/Navegacion/MasAdelanteOn.gif';window.status='Ir 10 páginas adelante';return true" 
+  onmouseout ="this.style.cursor='default';MasAdelante.src='../Images/Navegacion/MasAdelante.gif';window.status='';return true" 
+  onclick="javascript:IrPagina(20)" 
+  onkeypress="if (event.keyCode==13 || event.keyCode==32 ) {IrPagina(20);}" 
+  ><img alt="Ir 10 páginas adelante" src="../Images/Navegacion/MasAdelante.gif" border="0" name="MasAdelante"></a><!-- Linea de Separación --><img height="25" src="../Images/Navegacion/Line.gif" width="12"><!-- Exportar - Exportar datos a Excel --><a tabindex="-1" 
+  onmouseover="this.style.cursor='pointer';Exportar.src='../Images/Navegacion/ExcelOn.gif';window.status='Exportar datos a Excel';return true" 
+  onmouseout ="this.style.cursor='default';Exportar.src='../Images/Navegacion/Excel.gif';window.status='';return true" 
+  onclick="javascript:FireEvent('Exportar')" 
+  onkeypress="if (event.keyCode==13 || event.keyCode==32 ) {FireEvent('Exportar');}" 
+  ><img alt="Exportar datos a Excel" src="../Images/Navegacion/Excel.gif" border="0" name="Exportar"></a><!-- Linea de Separación --><img height="25" src="../Images/Navegacion/Line.gif" width="12"><!-- Ayuda - Haga click aquí para ver la ayuda --><a tabindex="-1" 
+  onmouseover="this.style.cursor='pointer';Ayuda.src='../Images/Navegacion/AyudaOn.gif';window.status='Haga click aquí para ver la ayuda';return true" 
+  onmouseout ="this.style.cursor='default';Ayuda.src='../Images/Navegacion/Ayuda.gif';window.status='';return true" 
+  href="javascript:ShowHelpWindowScroll('','&lt;p&gt;&lt;h2&gt;Combo P&amp;#225;g:&lt;/h2&gt;&lt;h4&gt;Utilice este combo para desplazarse a otra p&amp;#225;gina sin tener que utilizar la barra de desplazamiento.&lt;/h4&gt;&lt;/p&gt;&lt;p&gt;&lt;h2&gt;Combo Mostrar:&lt;/h2&gt;&lt;h4&gt;Utilice este combo para seleccionar cuantos resultados quiere recibir por p&amp;#225;gina.&lt;/h4&gt;&lt;/p&gt;&lt;p&gt;&lt;h2&gt;Barra de navegaci&amp;#243;n&lt;/h2&gt;&lt;h4&gt;&lt;img src=../images/Navegacion/MasAtras.gif align=absmiddle&gt; Con este bot&amp;#243;n retrocedemos 10 p&amp;#225;ginas, si estamos en las primeras 10 vamos directamente a la primer p&amp;#225;gina.&lt;/h4&gt;&lt;br&gt;&lt;h4&gt;&lt;img src=../images/Navegacion/Atras.gif align=absmiddle&gt; Con el segundo bot&amp;#243;n accedemos a la p&amp;#225;gina anterior.&lt;/h4&gt;&lt;br&gt;&lt;h4&gt;&lt;img src=../images/Navegacion/Adelante.gif align=absmiddle&gt; El tercer bot&amp;#243;n nos permite acceder a la p&amp;#225;gina siguiente.&lt;/h4&gt;&lt;br&gt;&lt;h4&gt;&lt;img src=../images/Navegacion/MasAdelante.gif align=absmiddle&gt; Con el &amp;#250;ltimo bot&amp;#243;n avanzamos 10 p&amp;#225;ginas, si estamos en las &amp;#250;ltimas 10 vamos directamente a la &amp;#250;ltima p&amp;#225;gina.&lt;/h4&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;h2&gt;Bot&amp;#243;n Excel&lt;/h2&gt;&lt;h4&gt;&lt;img src=../images/Navegacion/Excel.gif align=absmiddle&gt; Este bot&amp;#243;n se utiliza para exportar los resultados de la consulta a un archivo Excel.&lt;/h4&gt;&lt;/p&gt;&lt;p&gt;&lt;h2&gt;Informaci&amp;#243;n de registros&lt;/h2&gt;&lt;h4&gt;Indica entre qu&amp;#233; registros estoy navegando. Por ejemplo, si estamos en la primera p&amp;#225;gina y en el segundo combo le indicamos que nos muestre &lt;b&gt;de a 15&lt;/b&gt;, vamos a ver &lt;b&gt;Registros: 1-15&lt;/b&gt;&lt;/h4&gt;&lt;/p&gt;')" 
+  onkeypress="if (event.keyCode==13) {ShowHelpWindowScroll('','&lt;p&gt;&lt;h2&gt;Combo P&amp;#225;g:&lt;/h2&gt;&lt;h4&gt;Utilice este combo para desplazarse a otra p&amp;#225;gina sin tener que utilizar la barra de desplazamiento.&lt;/h4&gt;&lt;/p&gt;&lt;p&gt;&lt;h2&gt;Combo Mostrar:&lt;/h2&gt;&lt;h4&gt;Utilice este combo para seleccionar cuantos resultados quiere recibir por p&amp;#225;gina.&lt;/h4&gt;&lt;/p&gt;&lt;p&gt;&lt;h2&gt;Barra de navegaci&amp;#243;n&lt;/h2&gt;&lt;h4&gt;&lt;img src=../images/Navegacion/MasAtras.gif align=absmiddle&gt; Con este bot&amp;#243;n retrocedemos 10 p&amp;#225;ginas, si estamos en las primeras 10 vamos directamente a la primer p&amp;#225;gina.&lt;/h4&gt;&lt;br&gt;&lt;h4&gt;&lt;img src=../images/Navegacion/Atras.gif align=absmiddle&gt; Con el segundo bot&amp;#243;n accedemos a la p&amp;#225;gina anterior.&lt;/h4&gt;&lt;br&gt;&lt;h4&gt;&lt;img src=../images/Navegacion/Adelante.gif align=absmiddle&gt; El tercer bot&amp;#243;n nos permite acceder a la p&amp;#225;gina siguiente.&lt;/h4&gt;&lt;br&gt;&lt;h4&gt;&lt;img src=../images/Navegacion/MasAdelante.gif align=absmiddle&gt; Con el &amp;#250;ltimo bot&amp;#243;n avanzamos 10 p&amp;#225;ginas, si estamos en las &amp;#250;ltimas 10 vamos directamente a la &amp;#250;ltima p&amp;#225;gina.&lt;/h4&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;h2&gt;Bot&amp;#243;n Excel&lt;/h2&gt;&lt;h4&gt;&lt;img src=../images/Navegacion/Excel.gif align=absmiddle&gt; Este bot&amp;#243;n se utiliza para exportar los resultados de la consulta a un archivo Excel.&lt;/h4&gt;&lt;/p&gt;&lt;p&gt;&lt;h2&gt;Informaci&amp;#243;n de registros&lt;/h2&gt;&lt;h4&gt;Indica entre qu&amp;#233; registros estoy navegando. Por ejemplo, si estamos en la primera p&amp;#225;gina y en el segundo combo le indicamos que nos muestre &lt;b&gt;de a 15&lt;/b&gt;, vamos a ver &lt;b&gt;Registros: 1-15&lt;/b&gt;&lt;/h4&gt;&lt;/p&gt;');}" 
+  ><img alt="Haga click aquí para ver la ayuda" src="../Images/Navegacion/Ayuda.gif" border="0" name="Ayuda"></a>		</td>
+<!-- Fin Botones de Navegación -->
+
+		<td noWrap align="right" width="30%">
+			<font class="Campos">Registros: 1-50&nbsp;</font>
+		</td>
+	</tr>
+	</tbody>
+</table>
+<!-- Fin Barra de Navegación -->
+
+
+							
+							<!-- FIN GRILLA RESULTADO -->
+														
+							</td>
+						</tr>
+				</table>
+				<!-- FIN GRILLA PARA CONSULTA -->
+				
+				
+				<!-- Ficha del documento -->
+				
+			</td>
+			<!-- Espacio a derecha -->
+			<td width="1%"></td>
+		</tr>
+	</table>
+	<!-- FIN TABLA GENERAL -->	
+</form>
+
+<!-- Ficha del documento -->
+
+
+<!-- FIN FORMULARIO GENERAL -->
+<script type="text/javascript" src="../scripts/abm.js"></script>
+<script type="text/javascript" src="../scripts/prototype.js"></script>
+<script type="text/javascript" src="../scripts/abmCombo.js"></script>
+
+
+<!-- Fin CloseLayout -->
+
+
+<script language=javascript>
+<!--
+/*
+si está seleccionada la opcion "Alguno de los contenidos seleccionados"
+marco todos os hijos
+*/
+function contenidoTieneAlgunoChecked() {
+	if (document.getElementById('ContenidoTieneAlguno') != null) {
+		return (document.getElementById('ContenidoTieneAlguno').value == '1')
+	}
+}
+
+(function()
+{
+	document.getElementById("ActividadIdConHijos").checked=true;	
+})();
+
+//-->
+</script>
+

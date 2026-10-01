@@ -5,6 +5,7 @@
 #            Trabajo (que funciona con POST) y arma una base de datos.
 # Necesita:  httr2, rvest, dplyr, purrr, stringr, readr. Internet.
 # Produce:   clase-03-iteracion-apis-dinamico/datos/salida/convenios-2024.csv
+#            datos/crudo/convenios-2024-pagina-1-2026-10-01.html (respaldo)
 # Duración:  cerca de un minuto (bajamos 3 páginas con pausas).
 #
 # Sitio:     https://convenios.trabajo.gob.ar/ConsultaWeb/consultaBasica.asp
@@ -85,7 +86,18 @@ pedir_pagina <- function(anio, pagina = 1, por_pagina = 50) {
     resp_body_html(encoding = "ISO-8859-1")
 }
 
-primera <- pedir_pagina(2024, 1)
+# Poné TRUE si el servidor no responde. El respaldo fechado es la primera
+# página capturada el 2026-10-01; en ese modo se procesa esa página (50 filas)
+# y se omite la paginación en vivo.
+usar_respaldo <- FALSE
+
+archivo_respaldo <- "clase-03-iteracion-apis-dinamico/datos/crudo/convenios-2024-pagina-1-2026-10-01.html"
+
+primera <- if (usar_respaldo) {
+  read_html(archivo_respaldo, encoding = "ISO-8859-1")
+} else {
+  pedir_pagina(2024, 1)
+}
 
 
 # --- 3. Cuántos hay ----------------------------------------------------------
@@ -184,8 +196,13 @@ bajar_pagina <- function(anio, pagina) {
 # Bajamos solo 3 páginas para no hacer esperar a la clase.
 # Para bajar todo sería 1:paginas_totales, pero con 2 segundos de pausa
 # eso son varios minutos. Está bien que tarde: no es una carrera.
+# El respaldo local contiene solo la primera página: no simula las otras dos.
 
-base <- map(1:3, function(p) bajar_pagina(2024, p)) |> list_rbind()
+base <- if (usar_respaldo) {
+  map(filas, extraer_fila) |> list_rbind()
+} else {
+  map(1:3, function(p) bajar_pagina(2024, p)) |> list_rbind()
+}
 
 nrow(base)
 base |> count(actividad, sort = TRUE) |> head(8)
@@ -195,7 +212,12 @@ base |> count(actividad, sort = TRUE) |> head(8)
 
 write_csv(base, "clase-03-iteracion-apis-dinamico/datos/salida/convenios-2024.csv")
 
-cat("\n", nrow(base), "documentos guardados de", total, "disponibles para 2024.\n")
+cat("\n", nrow(base), "documentos guardados de", total, "disponibles para 2024.")
+if (usar_respaldo) {
+  cat(" Se usó el respaldo de la página 1 (captura 2026-10-01); no es la descarga de 3 páginas.\n")
+} else {
+  cat("\n")
+}
 
 
 # -----------------------------------------------------------------------------

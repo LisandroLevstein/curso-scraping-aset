@@ -21,7 +21,7 @@ library(jsonlite)
 usar_respaldo <- FALSE
 
 origen <- if (usar_respaldo) {
-  "clase-02-rvest-estaticas/datos/crudo/eldia-portada-respaldo.html"
+  "clase-02-rvest-estaticas/datos/crudo/eldia-portada-respaldo-2026-09-09.html"
 } else {
   "https://www.eldia.com/"
 }
@@ -41,7 +41,7 @@ length(notas_html)   # cada elemento es UNA nota completa
 
 # --- 2. Extraer campo por campo, sobre la lista de bloques -------------------
 # La clave está en html_element() en SINGULAR.
-# Aplicado sobre una lista de 89 bloques, devuelve exactamente 89 resultados:
+# Aplicado sobre una lista de N bloques, devuelve exactamente N resultados:
 # uno por bloque. Si un bloque no tiene ese campo, devuelve NA en su posición.
 #
 # Con html_elements() (plural) devolvería solo los que existen, y volveríamos

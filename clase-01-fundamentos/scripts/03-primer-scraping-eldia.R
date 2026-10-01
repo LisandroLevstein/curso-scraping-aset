@@ -23,7 +23,7 @@ usar_respaldo <- FALSE
 # --- 1. Traer la página ------------------------------------------------------
 
 if (usar_respaldo) {
-  origen <- "clase-01-fundamentos/datos/crudo/eldia-portada-respaldo.html"
+  origen <- "clase-01-fundamentos/datos/crudo/eldia-portada-respaldo-2026-09-09.html"
 } else {
   origen <- "https://www.eldia.com/"
 }

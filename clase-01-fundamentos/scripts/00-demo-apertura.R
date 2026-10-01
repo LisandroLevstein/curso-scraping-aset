@@ -29,7 +29,7 @@ library(rvest)          # scraping
 # =============================================================================
 # Esta es LA idea de la clase 1. Todo lo demás se desprende de acá.
 
-url <- 'https://ar.computrabajo.com/trabajo-de-vendedor?p=211'
+url <- 'https://ar.computrabajo.com/trabajo-de-vendedor'
 url
 
 # Abrí esa dirección en el navegador, al lado. Se ve una lista de avisos.
@@ -114,6 +114,12 @@ nodos
 
 length(nodos)   # 20 avisos en esta página
 
+# Si da 0, mejor enterarse acá que tres pasos más abajo con un error raro:
+if (length(nodos) == 0) {
+  stop("El selector no encontró avisos: el sitio cambió su HTML. ",
+       "Ver la nota para el docente al final del script.")
+}
+
 # Cada elemento de `nodos` es UN aviso completo, con todo adentro.
 # Ahora buscamos cosas dentro de cada uno.
 
@@ -168,7 +174,7 @@ n_fichas <- 5
 
 contenido <- c()
 
-for (l in links_completos[1:n_fichas]) {
+for (l in head(links_completos, n_fichas)) {
 
   ficha <- read_html_live(l)
 
@@ -182,7 +188,6 @@ for (l in links_completos[1:n_fichas]) {
   # comiendo memoria, y a la décima ficha la máquina se arrastra.
   ficha$session$close()
 
-  cat('\n\n', 'link: ', l, '\n\n', body)
 
   Sys.sleep(1)   # una pausa entre pedido y pedido. Cortesía básica.
 }
@@ -276,12 +281,16 @@ palabras |>
 #
 # NOTA PARA EL DOCENTE
 # -----------------------------------------------------------------------------
-# Los sitios cambian. Antes de cada dictado, verificar en 30 segundos:
+# Los sitios cambian. Antes de cada dictado, correr el script
+# scripts/verificacion-pre-clase.R (unos 30 segundos). En resumen, verifica:
 #
 #   pagina <- read_html_live(url)
 #   length(html_elements(pagina, "article.box_offer"))   # tiene que dar 20
 #
-# Si da 0, el selector cambió: inspeccionar de nuevo y actualizar `clase_css`.
+# Si da 0, dos causas posibles:
+#   - el selector cambió: inspeccionar de nuevo y actualizar `clase_css`;
+#   - la URL no tiene avisos: las páginas profundas (por ejemplo ?p=211)
+#     devuelven una cáscara vacía, sin bloques. Usar la página 1.
 #
 # Alternativa si el sitio no responde el día de la clase: el mismo recorrido
 # funciona sobre eldia.com con read_html() y el selector ".nota__titulo-item",

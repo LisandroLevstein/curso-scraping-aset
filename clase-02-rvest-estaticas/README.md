@@ -9,8 +9,8 @@
 
 ## De dónde venimos
 
-La clase 1 terminó con una pregunta abierta: la portada tenía 89 títulos y solo 9 copetes.
-¿Se pueden pegar los dos vectores en una tabla?
+La clase 1 terminó con una pregunta abierta: la portada tenía unos 90 títulos y menos de
+10 copetes (el número exacto cambia cada día). ¿Se pueden pegar los dos vectores en una tabla?
 
 **No.** Y el problema no es que falle: el problema es que **no falla**. R arma la tabla sin
 protestar, el copete de la nota 20 queda al lado del título de la nota 3, y vos publicás
@@ -60,13 +60,13 @@ Antes de extraer, mirá los atributos. Muchas veces el dato limpio ya está ahí
 
 ```r
 # MAL: cada campo por su cuenta. Los largos no coinciden.
-titulos <- portada |> html_elements(".nota__titulo-item")  |> html_text2()  # 89
-copetes <- portada |> html_elements(".nota__introduccion") |> html_text2()  #  9
+titulos <- portada |> html_elements(".nota__titulo-item")  |> html_text2()  # ~90
+copetes <- portada |> html_elements(".nota__introduccion") |> html_text2()  # <10
 
 # BIEN: aislar el bloque, y buscar adentro de cada bloque.
-notas_html <- portada |> html_elements("article.nota")                      # 89 bloques
-titulos <- notas_html |> html_element(".nota__titulo-item")  |> html_text2() # 89
-copetes <- notas_html |> html_element(".nota__introduccion") |> html_text2() # 89, con NA
+notas_html <- portada |> html_elements("article.nota")                       # ~90 bloques
+titulos <- notas_html |> html_element(".nota__titulo-item")  |> html_text2() # ~90
+copetes <- notas_html |> html_element(".nota__introduccion") |> html_text2() # ~90, con NA
 ```
 
 La diferencia está en **`html_element()` en singular**. Aplicado sobre una lista de bloques,
@@ -100,7 +100,7 @@ fuente. Guardá siempre la URL completa.
 5. Escribí una función que reciba una URL y devuelva su tabla limpia.
 
 **Sobre el script 3**
-6. Cambiá `patron_laboral` por un tema de tu investigación.
+6. Cambiá `patron_economia` por un tema de tu investigación.
 7. Agregá una columna con `Sys.Date()`. ¿Por qué importa, si corrieras esto todos los días?
 
 ## Desafíos
