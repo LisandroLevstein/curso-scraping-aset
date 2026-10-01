@@ -1,0 +1,18 @@
+User-agent: *
+Disallow: /*recientes=true
+Disallow: /*relevantes=true
+Disallow: /empleos.html/111
+Disallow: /empleos.html/100
+Disallow: /empleos-area-*/111
+Disallow: /empleos-area-*/100
+Disallow: /en-*/empleos.html/111
+Disallow: /en-*/empleos.html/100
+Disallow: /empleos-busquedaext-
+Disallow: /*?localidades=*
+Disallow: /*&localidades=*
+
+Sitemap: https://www.zonajobs.com.ar/sitemap_avisos_zj.xml
+Sitemap: https://www.zonajobs.com.ar/sitemap_core_zj.xml
+Sitemap: https://www.zonajobs.com.ar/sitemap_empresas_zj.xml
+Sitemap: https://www.zonajobs.com.ar/sitemap_listados_ubicacion_zj.xml
+Sitemap: https://www.zonajobs.com.ar/sitemap_tags_bum.xml
